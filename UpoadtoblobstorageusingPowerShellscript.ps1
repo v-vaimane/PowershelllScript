@@ -43,17 +43,3 @@ for($i=0; $i -lt $name.Length; $i++)
     #Upload file
     Invoke-RestMethod -Method PUT -Uri $URI -Headers $header -InFile $FileName[$i]
 }
-
-#Blob Name i.e. package name 
-$BolbName="CRMHelperApiApp.zip"
-
-#SASToken for blob
-$SASTokenForblob = New-AzureStorageBlobSASToken -Container "package" -Context $context -Blob $BolbName -Permission "r" -StartTime $StartTime -ExpiryTime $EndTime
-
-#URL for blob
-$BolbURL = "$($context.BlobEndPoint)$($Container)/$($BolbName)$($SASTokenForblob)"
-
-
-#Get-AzureStorageBlob -Container "package" -Context $context -Blob blob* 
-#New-AzStorageContainer -Name "packges01" -Context $context -Permission Off
-
