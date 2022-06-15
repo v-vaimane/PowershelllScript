@@ -7,7 +7,7 @@
 #Get file name 
 $FileName = Get-ChildItem C:\UploadPackages -Filter *.zip 
 
-$name = (Get-Item $FileName).Name
+#$name = (Get-Item $FileName).Name
 
 #Container name we will get this as a parameter from ARM template
 $Container= "package" 
@@ -37,9 +37,9 @@ $header=@{
 }
 
 #REST API uri to upload the file to storage account is 
-for($i=0; $i -lt $name.Length; $i++)   
+for($i=0; $i -lt $FileName.Length; $i++)   
 {
-    $URI = "$($HTTPSStoragehost)$($Container)/$($name[$i])$($SASTokenContainer)"
+    $URI = "$($HTTPSStoragehost)$($Container)/$($FileName[$i])$($SASTokenContainer)"
     #Upload file
     Invoke-RestMethod -Method PUT -Uri $URI -Headers $header -InFile $FileName[$i]
 }
