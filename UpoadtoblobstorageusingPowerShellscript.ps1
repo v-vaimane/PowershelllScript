@@ -1,4 +1,4 @@
-﻿Connect-AzAccount
+#Connect-AzAccount
 
 #install below packages
 #Install-Module Az -Force
