@@ -5,7 +5,7 @@
 #Import-Module Az
 
 #Get file name 
-$FileName = Get-ChildItem C:\UploadPackages -Filter *.zip 
+$FileName = Get-ChildItem C:\\UploadPackages -Filter *.zip 
 
 #$name = (Get-Item $FileName).Name
 
