@@ -9,6 +9,18 @@
         "type": "Microsoft.Common.Section",
         "label": "Deploying resources using ARM template",  
         "elements": [
+          {
+            "name": "SubscriptionID",
+            "type": "Microsoft.Common.TextBox",
+            "label": "Subscription ID",
+            "visible": "True",
+            "options": {
+              "filter": {
+                "subscription": "onBasics",
+                "location": "onBasics"
+              }
+            }
+          },
             {
                 "name": "Simulator",
                 "type": "Microsoft.Common.CheckBox",
