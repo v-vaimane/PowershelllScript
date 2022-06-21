@@ -17,15 +17,41 @@
         },
         "DeploySimulator": {
         "type": "bool",
-        "defaultValue": ""
+        "defaultValue": false,
+            "allowedValues": [
+                true,
+                false
+            ]
         },
-        "DeployTSI": {
+        "isTimeSeriesInsight": {
         "type": "bool",
-        "defaultValue": false
+        "defaultValue": false,
+            "allowedValues": [
+                true,
+                false
+            ]
         },
-        "DeployPowerBI": {
+        "PowerBI": {
         "type": "bool",
-        "defaultValue": false
+        "defaultValue": false,
+            "allowedValues": [
+                true,
+                false
+            ]
+        },
+        "administratorLogin": {
+        "type": "string",
+        "defaultValue": "",
+        "metadata": {
+            "description": "User name for SQL server."
+        }
+        },
+        "administratorLoginPassword": {
+        "type": "string",
+        "defaultValue": "",
+        "metadata": {
+            "description": "Password for SQL server"
+        }
         }
      },
     "variables": {
@@ -887,8 +913,8 @@
       },
       "apiVersion": "2014-04-01",
       "properties": {
-        "administratorLogin": "[variables('administratorLogin')]",
-        "administratorLoginPassword": "[variables('administratorLoginPassword')]",
+        "administratorLogin": "[parameters('administratorLogin')]",
+        "administratorLoginPassword": "[parameters('administratorLoginPassword')]",
         "version": "12.0"
       },
       "resources": [
@@ -1000,8 +1026,8 @@
                   "server": "[variables('sqlServerName')]",
                   "database": "[variables('sqlDatabaseName')]",
                   "table": "[variables('sqlTableName')]",
-                  "user": "[variables('administratorLogin')]",
-                  "password": "[variables('administratorLoginPassword')]"
+                  "user": "[parameters('administratorLogin')]",
+                  "password": "[parameters('administratorLoginPassword')]"
                 }
               }
             }
@@ -1223,7 +1249,7 @@
       {
       "name": "[variables('SimulatorAppName')]",
       //"condition": "[parameters('DeploySimulator')]",
-      "condition": "[equals(parameters('DeploySimulator'),'Yes')]",
+      "condition": "[equals(parameters('DeploySimulator'),'true')]",
       "type": "Microsoft.Web/sites",
       "location": "[resourceGroup().location]",
       "apiVersion": "2018-11-01",
