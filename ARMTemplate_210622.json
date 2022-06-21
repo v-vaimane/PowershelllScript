@@ -17,7 +17,7 @@
         },
         "DeploySimulator": {
         "type": "bool",
-        "defaultValue": false
+        "defaultValue": true
         },
         "DeployTSI": {
         "type": "bool",
