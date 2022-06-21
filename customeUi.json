@@ -117,6 +117,7 @@
         "SQLServer": "[steps('mainSection').SQLServer]",
         "SubscriptionID": "[steps('mainSection').SubscriptionID]",
         "isTimeSeriesInsight": "[steps('mainSection').isTimeSeriesInsight]",
+        "DeploySimulator": "[steps('mainSection').DeploySimulator]",
         "ApplicationID": "[steps('mainSection').ApplicationID]",
         "ClientSecretID": "[steps('mainSection').ClientSecretID]",
         "PowerBI": "[steps('mainSection').PowerBI]",
