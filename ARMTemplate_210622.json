@@ -14,6 +14,18 @@
         "subscriptionId": {
         "type": "string",
          "defaultValue": "995f2d66-72ff-4037-92c3-1a72fddac360"
+        },
+        "DeploySimulator": {
+        "type": "bool",
+        "defaultValue": false
+        },
+        "DeployTSI": {
+        "type": "bool",
+        "defaultValue": false
+        },
+        "DeployPowerBI": {
+        "type": "bool",
+        "defaultValue": false
         }
      },
     "variables": {
@@ -1210,6 +1222,7 @@
       },
       {
       "name": "[variables('SimulatorAppName')]",
+      "condition": "[parameters('DeploySimulator')]",
       "type": "Microsoft.Web/sites",
       "location": "[resourceGroup().location]",
       "apiVersion": "2018-11-01",
