@@ -37,26 +37,18 @@
                 "name": "ApplicationID",
                 "type": "Microsoft.Common.TextBox",
                 "label": "Application (client) ID",
-                "resourceType": "Microsoft.TimeSeriesInsights/environments",
                 "visible": "[basics('mainSection').isTimeSeriesInsight]",
-                "options": {
-                  "filter": {
-                    "subscription": "onBasics",
-                    "location": "onBasics"
-                  }
+                "constraints": {
+                  "required": true
                 }
               },
               {
                 "name": "ClientSecretID",
                 "type": "Microsoft.Common.TextBox",
                 "label": "Client Secret",
-                "resourceType": "Microsoft.TimeSeriesInsights/environments",
                 "visible": "[basics('mainSection').isTimeSeriesInsight]",
-                "options": {
-                  "filter": {
-                    "subscription": "onBasics",
-                    "location": "onBasics"
-                  }
+                "constraints": {
+                  "required": true
                 }
               },
             {
@@ -90,17 +82,17 @@
             },
             {
               "name": "administratorLogin",
-              "type": "Microsoft.Common.TextBox",
+              "type": "Microsoft.Compute.UserNameTextBox",
               "label": "SQL Server admin username",
               "toolTip": "Client Secret",
               "visible": "[basics('mainSection').PowerBI]",
               "toolTip": "Make sure your login name meets the following requirements - It's a SQL Identifier, and not a typical system name (like admin, administrator, sa, root, dbmanager, loginmanager, etc.), or a built-in database user or role (like dbo, guest, public, etc.). Make sure your name doesn't contain whitespaces, unicode characters, or nonalphabetic characters, and that it doesn't begin with numbers or symbols.   ",
-              "options": {
-                "filter": {
-                  "subscription": "onBasics",
-                  "location": "onBasics"
-                }
-              }
+              "constraints": {
+                "required": true,
+                "regex": "^[a-z0-9A-Z]{1,30}$",
+                "validationMessage": "Only alphanumeric characters are allowed, and the value must be 1-30 characters long."
+            },
+            "osPlatform": "Windows"
             },
             {
               "name": "administratorLoginPassword",
@@ -108,30 +100,28 @@
               "label": "SQL Server admin password",
               "toolTip": "Your password cannot contain all or part of the username. Part of a username is defined as three or more consecutive alphanumeric characters.",
               "visible": "[basics('mainSection').PowerBI]",
+              "constraints": {
+                "required": true,
+                "customPasswordRegex": "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])[\\w~@#$%^&*+=|{}:;!.?\\()\\[\\]-]{8,}$",
+                "customValidationMessage": "The password must contain at least 8 characters, with at least 1 uppercase, 1 lowercase and 1 number."
+                },
               "options": {
-                "filter": {
-                  "subscription": "onBasics",
-                  "location": "onBasics"
-                }
+                  "hideConfirmation": false
               }
-            },   
-            {
-              "name": "SQLConfirmPassword",
-              "type": "Microsoft.Common.TextBox",
-              "label": "Confirm password",
-              "visible": "[basics('mainSection').PowerBI]",
-              "options": {
-                "filter": {
-                  "subscription": "onBasics",
-                  "location": "onBasics"
-                }
-              }
-            }  
+            }
         ]
         }
       ],
       "steps": [],
       "outputs": {
+        "SQLServer": "[steps('mainSection').SQLServer]",
+        "SubscriptionID": "[steps('mainSection').SubscriptionID]",
+        "isTimeSeriesInsight": "[steps('mainSection').isTimeSeriesInsight]",
+        "ApplicationID": "[steps('mainSection').ApplicationID]",
+        "ClientSecretID": "[steps('mainSection').ClientSecretID]",
+        "PowerBI": "[steps('mainSection').PowerBI]",
+        "administratorLogin": "[steps('mainSection').administratorLogin]",
+        "administratorLoginPassword": "[steps('mainSection').administratorLoginPassword]"
       }
     }
   }
