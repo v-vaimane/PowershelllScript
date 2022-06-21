@@ -1,0 +1,125 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/0.1.2-preview/CreateUIDefinition.MultiVm.json#",
+    "handler": "Microsoft.Azure.CreateUIDef",
+    "version": "0.1.2-preview",
+    "parameters": {
+      "basics": [
+        {
+        "name": "mainSection",
+        "type": "Microsoft.Common.Section",
+        "label": "Deploying resources using ARM template",  
+        "elements": [
+            {
+                "name": "Simulator",
+                "type": "Microsoft.Common.CheckBox",
+                "label": "Deploy Simulator",
+                "toolTip": "Check the checkbox for deploying Simulator"
+            },
+            {
+                "name": "isTimeSeriesInsight",
+                "type": "Microsoft.Common.CheckBox",
+                "label": "Deploy Azure Time Series Insights (optional)",
+                "toolTip": "Time Series Insights can be included in your deployment for detailed device insights and analytics."
+            },
+            {
+                "name": "ApplicationID",
+                "type": "Microsoft.Common.TextBox",
+                "label": "Application (client) ID",
+                "resourceType": "Microsoft.TimeSeriesInsights/environments",
+                "visible": "[basics('mainSection').isTimeSeriesInsight]",
+                "options": {
+                  "filter": {
+                    "subscription": "onBasics",
+                    "location": "onBasics"
+                  }
+                }
+              },
+              {
+                "name": "ClientSecretID",
+                "type": "Microsoft.Common.TextBox",
+                "label": "Client Secret",
+                "resourceType": "Microsoft.TimeSeriesInsights/environments",
+                "visible": "[basics('mainSection').isTimeSeriesInsight]",
+                "options": {
+                  "filter": {
+                    "subscription": "onBasics",
+                    "location": "onBasics"
+                  }
+                }
+              },
+            {
+                "name": "PowerBI",
+                "type": "Microsoft.Common.CheckBox",
+                "label": "Deploy SQL Server for Power BI (optional)",
+                "toolTip": "Microsoft Power BI for device analytics can be included in your deployment. Choosing this will deploy two additional resources, Azure Streaming Analytics and SQL Server database."
+
+            },
+            {
+                "name": "SQLServer",
+                "type": "Microsoft.Solutions.ResourceSelector",
+                "label": "SQL Server",
+                "resourceType": "Microsoft.Sql/servers",
+                "visible": "[basics('mainSection').PowerBI]",
+                "options": {
+                  "filter": {
+                    "subscription": "onBasics",
+                    "location": "onBasics"
+                  }
+                }
+            },
+            {
+              "name": "text1",
+              "type": "Microsoft.Common.InfoBox",
+              "visible": "[basics('mainSection').PowerBI]",
+              "options": {
+                "icon": "None",
+                "text": "Enter the new username and password for creating the database."
+              }
+            },
+            {
+              "name": "SQLusername",
+              "type": "Microsoft.Common.TextBox",
+              "label": "SQL Server admin username",
+              "toolTip": "Client Secret",
+              "visible": "[basics('mainSection').PowerBI]",
+              "toolTip": "Make sure your login name meets the following requirements - It's a SQL Identifier, and not a typical system name (like admin, administrator, sa, root, dbmanager, loginmanager, etc.), or a built-in database user or role (like dbo, guest, public, etc.). Make sure your name doesn't contain whitespaces, unicode characters, or nonalphabetic characters, and that it doesn't begin with numbers or symbols.   ",
+              "options": {
+                "filter": {
+                  "subscription": "onBasics",
+                  "location": "onBasics"
+                }
+              }
+            },
+            {
+              "name": "SQLpassword",
+              "type": "Microsoft.Common.TextBox",
+              "label": "SQL Server admin password",
+              "toolTip": "Your password cannot contain all or part of the username. Part of a username is defined as three or more consecutive alphanumeric characters.",
+              "visible": "[basics('mainSection').PowerBI]",
+              "options": {
+                "filter": {
+                  "subscription": "onBasics",
+                  "location": "onBasics"
+                }
+              }
+            },   
+            {
+              "name": "SQLConfirmPassword",
+              "type": "Microsoft.Common.TextBox",
+              "label": "Confirm password",
+              "visible": "[basics('mainSection').PowerBI]",
+              "options": {
+                "filter": {
+                  "subscription": "onBasics",
+                  "location": "onBasics"
+                }
+              }
+            }  
+        ]
+        }
+      ],
+      "steps": [],
+      "outputs": {
+      }
+    }
+  }
