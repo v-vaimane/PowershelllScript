@@ -22,7 +22,7 @@
             }
           },
             {
-                "name": "Simulator",
+                "name": "DeploySimulator",
                 "type": "Microsoft.Common.CheckBox",
                 "label": "Deploy Simulator",
                 "toolTip": "Check the checkbox for deploying Simulator"
@@ -89,7 +89,7 @@
               }
             },
             {
-              "name": "SQLusername",
+              "name": "administratorLogin",
               "type": "Microsoft.Common.TextBox",
               "label": "SQL Server admin username",
               "toolTip": "Client Secret",
@@ -103,7 +103,7 @@
               }
             },
             {
-              "name": "SQLpassword",
+              "name": "administratorLoginPassword",
               "type": "Microsoft.Common.TextBox",
               "label": "SQL Server admin password",
               "toolTip": "Your password cannot contain all or part of the username. Part of a username is defined as three or more consecutive alphanumeric characters.",
