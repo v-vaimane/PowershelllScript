@@ -114,15 +114,15 @@
       ],
       "steps": [],
       "outputs": {
-        "SQLServer": "[steps('mainSection').SQLServer]",
-        "SubscriptionID": "[steps('mainSection').SubscriptionID]",
-        "isTimeSeriesInsight": "[steps('mainSection').isTimeSeriesInsight]",
-        "DeploySimulator": "[steps('mainSection').DeploySimulator]",
-        "ApplicationID": "[steps('mainSection').ApplicationID]",
-        "ClientSecretID": "[steps('mainSection').ClientSecretID]",
-        "PowerBI": "[steps('mainSection').PowerBI]",
-        "administratorLogin": "[steps('mainSection').administratorLogin]",
-        "administratorLoginPassword": "[steps('mainSection').administratorLoginPassword]"
+        "SQLServer": "[basics('mainSection').SQLServer]",
+        "SubscriptionID": "[basics('mainSection').SubscriptionID]",
+        "isTimeSeriesInsight": "[basics('mainSection').isTimeSeriesInsight]",
+        "DeploySimulator": "[basics('mainSection').DeploySimulator]",
+        "ApplicationID": "[basics('mainSection').ApplicationID]",
+        "ClientSecretID": "[basics('mainSection').ClientSecretID]",
+        "PowerBI": "[basics('mainSection').PowerBI]",
+        "administratorLogin": "[basics('mainSection').administratorLogin]",
+        "administratorLoginPassword": "[basics('mainSection').administratorLoginPassword]"
       }
     }
   }
