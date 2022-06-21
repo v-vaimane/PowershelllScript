@@ -1222,8 +1222,8 @@
       },
       {
       "name": "[variables('SimulatorAppName')]",
-      //"condition": "[parameters('DeploySimulator')]",
-      "condition": "[equals(parameters('DeploySimulator'),'false')]",
+      "condition": "[parameters('DeploySimulator')]",
+      //"condition": "[equals(parameters('DeploySimulator'),'false')]",
       "type": "Microsoft.Web/sites",
       "location": "[resourceGroup().location]",
       "apiVersion": "2018-11-01",
