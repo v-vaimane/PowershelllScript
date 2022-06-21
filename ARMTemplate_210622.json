@@ -17,7 +17,7 @@
         },
         "DeploySimulator": {
         "type": "bool",
-        "defaultValue": true
+        "defaultValue": false
         },
         "DeployTSI": {
         "type": "bool",
@@ -1222,7 +1222,8 @@
       },
       {
       "name": "[variables('SimulatorAppName')]",
-      "condition": "[parameters('DeploySimulator')]",
+      //"condition": "[parameters('DeploySimulator')]",
+      "condition": "[equals(parameters('DeploySimulator'),'true')]",
       "type": "Microsoft.Web/sites",
       "location": "[resourceGroup().location]",
       "apiVersion": "2018-11-01",
