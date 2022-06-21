@@ -102,7 +102,6 @@
               "visible": "[basics('mainSection').PowerBI]",
               "constraints": {
                 "required": true,
-                //"customPasswordRegex": "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])[\\w~@#$%^&*+=|{}:;!.?\\()\\[\\]-]{8,}$",
                 "customValidationMessage": "The password must contain at least 8 characters, with at least 1 uppercase, 1 lowercase and 1 number."
                 },
               "options": {
