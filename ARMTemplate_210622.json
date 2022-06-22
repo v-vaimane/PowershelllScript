@@ -864,6 +864,7 @@
         {
         "apiVersion": "2020-05-15",
         "name": "[variables('timeSeriesInsightsName')]",
+        "condition": "[equals(parameters('isTimeSeriesInsight'),'true')]",
         "location": "[variables('timeSeriesInsightsLocation')]",
         "type": "Microsoft.TimeSeriesInsights/environments",
         "kind": "[variables('environmentKind')]",
@@ -906,6 +907,7 @@
         /*SQLDbTemplate.json*/
       {
       "name": "[variables('sqlserverName')]",
+      "condition": "[contains(parameters('administratorLoginPassword'),'^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])[\\w~@#$%^&*+=|{}:;!.?\\()\\[\\]-]{8,}$')]",
       "type": "Microsoft.Sql/servers",
       "location": "[variables('sqlServerLocation')]",
       "tags": {
@@ -954,6 +956,7 @@
     /*streamAnalyticsPBITemplate.json*/
     {
       "apiVersion": "[variables('sjVersion')]",
+      "condition": "[contains(parameters('administratorLogin'),'^[a-z0-9A-Z]{1,30}$')]",
       "type": "Microsoft.StreamAnalytics/StreamingJobs",
       "name": "[variables('rulesJobNamePBI')]",
       "location": "[variables('location')]",
