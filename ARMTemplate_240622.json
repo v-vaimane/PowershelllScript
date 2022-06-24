@@ -16,29 +16,30 @@
          "defaultValue": "995f2d66-72ff-4037-92c3-1a72fddac360"
         },
         "DeploySimulator": {
-        "type": "bool",
-        "defaultValue": false,
-            "allowedValues": [
-                true,
-                false
-            ]
+            "type": "bool"
         },
         "isTimeSeriesInsight": {
-        "type": "bool",
-        "defaultValue": false,
-            "allowedValues": [
-                true,
-                false
-            ]
+        "type": "bool"
         },
-        "PowerBI": {
-        "type": "bool",
-        "defaultValue": false,
-            "allowedValues": [
-                true,
-                false
-            ]
+        "isPowerBI": {
+        "type": "bool"
         },
+        // "isTimeSeriesInsight": {
+        // "type": "bool",
+        // "defaultValue": false,
+        // "allowedValues": [
+        //     true,
+        //     false
+        //    ]
+        // },
+        // "isPowerBI": {
+        // "type": "bool",
+        // "defaultValue": false,
+        // "allowedValues": [
+        //     true,
+        //     false
+        //   ]
+        // },
         "administratorLogin": {
         "type": "string",
         "defaultValue": "",
@@ -55,12 +56,13 @@
         }
      },
     "variables": {
+        "singleQuote": "'",
         "storageAccountType":"Standard_RAGRS",
         "sku":"Standard",
         "skuCapacity":"1",
         "skuName":"S1",
         "svcPlanName":"ServicePlan",
-		"connections_SBMessage_name": "SBMessage",
+	    "connections_SBMessage_name": "SBMessage",
         "resourceGroupLocation": "[resourceGroup().location]",
         "serviceBusNamespaceName": "[format('msdyn-ServiceBusNameSpace-{0}', variables('uniqueIdentifier'))]",
         "serviceBusCRMQueueName": "[format('{0}-crm', variables('serviceBusNamespaceName'))]",
@@ -69,14 +71,14 @@
         "serviceBusSkuName": "Standard",
         "skuTier": "Standard",
         "location": "[resourceGroup().location]",
-		"storageAccountName": "[concat('storage', uniquestring(resourceGroup().name))]",
-	 	"apiVersion": "2018-04-01"	,
+        "storageAccountName": "[concat('storage', uniquestring(resourceGroup().name))]",
+        "apiVersion": "2018-04-01"	,
         "saApiVersion": "2019-04-01",
         "sbVersion": "2017-04-01",
         "resourceGroupName":"[resourceGroup().name]",
         "uniqueIdentifier": "[uniqueString(resourceGroup().id)]",
         "hubName": "[format('msdyn-iothub-{0}', variables('uniqueIdentifier'))]",
-		"capacityUnits": 1,
+	    "capacityUnits": 1,
         "streamJobApiVersion": "2015-09-01",
         "sjVersion": "[variables('streamJobApiVersion')]",
         "rulesJobName": "[format('{0}{1}', variables('resourceGroupName'), variables('uniqueIdentifier'))]",
@@ -85,9 +87,7 @@
 		"commondataserviceName": "commondataservice",
         "alertRulesQuery": "WITH AlertData AS \r\n(\r\nSELECT\r\n     Stream.DeviceID,\r\n     'Temperature' AS ReadingType,\r\n     Stream.Temperature AS Reading,\r\n     Stream.EventToken AS EventToken,\r\n     Ref.Temperature AS Threshold,\r\n     Ref.TemperatureRuleOutput AS RuleOutput,\r\n     Stream.EventEnqueuedUtcTime AS [Time]\r\nFROM IoTStream Stream\r\nJOIN DeviceRulesBlob Ref ON Ref.DeviceType = 'Thermostat'\r\nWHERE\r\n     Ref.Temperature IS NOT null AND Stream.Temperature > Ref.Temperature\r\n)\r\n\r\nSELECT data.DeviceId,\r\n    data.ReadingType,\r\n    data.Reading,\r\n    data.EventToken,\r\n    data.Threshold,\r\n    data.RuleOutput,\r\n    data.Time\r\nINTO AlertsQueue\r\nFROM AlertData data\r\nWHERE LAG(data.DeviceID) OVER (PARTITION BY data.DeviceId, data.Reading, data.ReadingType LIMIT DURATION(minute, 1)) IS NULL",
         "workflows_IoT_To_CRM_name":"IoT-To-CRM",
-        "workflows_CRM_To_IoT_V2_name":"CRM_To_IoT",
-        "connections_SBMessage_externalid": "/subscriptions/995f2d66-72ff-4037-92c3-1a72fddac360/resourceGroups/DemoNewRG002/providers/Microsoft.Web/connections/SBMessage",
-        "connections_commondataservice_externalid": "/subscriptions/995f2d66-72ff-4037-92c3-1a72fddac360/resourceGroups/DemoNewRG002/providers/Microsoft.Web/connections/commondataservice",
+        "workflows_CRM_To_IoT_V2_name":"CRM-To-IoT-V2",
         "timeSeriesInsightsName": "[format('{0}-{1}-timeSeriesInsights', variables('resourceGroupName'), variables('uniqueIdentifier'))]",
         "timeSeriesInsightsEventSourceName":"[format('{0}-{1}-TSIEventSourceName', variables('resourceGroupName'), variables('uniqueIdentifier'))]",
         "ioTkeyName":"iothubowner",
@@ -98,8 +98,6 @@
         "eventSourceTimestampPropertyName":"",
         "iotHubResourceId":"[concat(uniquestring(resourceGroup().name),variables('uniqueIdentifier'))]",
         "iotHubConsumerGroupName":"timeseriesinsightsconsumergroup",
-        "administratorLogin":"PowerBISqlServerAdmin",
-        "administratorLoginPassword":"Demo@123",
         "sqlServerName":"[format('sqlserver-{0}-{1}', 'rg', variables('uniqueIdentifier'))]",
         "sqlDatabaseName":"[format('{0}-{1}-database', variables('resourceGroupName'), variables('uniqueIdentifier'))]",
         "databaseName":"[format('{0}-{1}',variables('sqlServerName'), variables('sqlDatabaseName'))]",
@@ -115,7 +113,12 @@
         "IotHubAppName": "[substring(format('IoTHub-{0}-{1}', 'ServiceApp', variables('uniqueIdentifier')), 0, 23)]",
         "CRMHelperAppName":"[substring(format('CRMHelper-{0}-{1}', 'ServiceApp', variables('uniqueIdentifier')), 0, 23)]",
         "QueueMessageParserAppName": "[substring(format('QueueMessageParser-{0}-{1}', 'ServiceApp', variables('uniqueIdentifier')), 0, 43)]",
-        "SimulatorAppName": "[substring(format('Simulator-{0}-{1}', 'ServiceApp', variables('uniqueIdentifier')), 0, 23)]"
+        "SimulatorAppName": "[substring(format('Simulator-{0}-{1}', 'ServiceApp', variables('uniqueIdentifier')), 0, 23)]",
+        "defaultSASKeyName": "RootManageSharedAccessKey",
+        "authRuleResourceId": "[resourceId('Microsoft.ServiceBus/namespaces/authorizationRules', variables('serviceBusNamespaceName'), variables('defaultSASKeyName'))]",
+        "rulesOutputName": "[format('{0}-iot', variables('serviceBusNamespaceName'))]",
+        "rulesOutputNamespace": "[format('{0}-rulesOutput',variables('serviceBusNamespaceName'))]",
+        "rulesOutputServiceBusKey": ""
     },
     "resources": [
 		{
@@ -185,6 +188,22 @@
                 }
         },
         {
+        "apiVersion": "[variables('apiVersion')]",
+        "type": "Microsoft.Devices/IotHubs/eventhubEndpoints/ConsumerGroups",
+        "name": "[concat(variables('hubName'), '/events/rulescg')]",
+        "dependsOn": [
+            "[concat('Microsoft.Devices/Iothubs/', variables('hubName'))]"
+        ]
+        },
+        {
+        "apiVersion": "[variables('apiVersion')]",
+        "type": "Microsoft.Devices/IotHubs/eventhubEndpoints/ConsumerGroups",
+        "name": "[concat(variables('hubName'), '/events/telemetrycg')]",
+        "dependsOn": [
+            "[concat('Microsoft.Devices/Iothubs/', variables('hubName'))]"
+        ]
+        },
+        {
             "type": "Microsoft.ServiceBus/Namespaces",
             "apiVersion": "[variables('sbVersion')]",
             "name": "[variables('serviceBusNamespaceName')]",
@@ -223,22 +242,7 @@
                 }
             ]
         },
-    {
-      "apiVersion": "[variables('apiVersion')]",
-      "type": "Microsoft.Devices/IotHubs/eventhubEndpoints/ConsumerGroups",
-      "name": "[concat(variables('hubName'), '/events/rulescg')]",
-      "dependsOn": [
-        "[concat('Microsoft.Devices/Iothubs/', variables('hubName'))]"
-      ]
-    },
-    {
-      "apiVersion": "[variables('apiVersion')]",
-      "type": "Microsoft.Devices/IotHubs/eventhubEndpoints/ConsumerGroups",
-      "name": "[concat(variables('hubName'), '/events/telemetrycg')]",
-      "dependsOn": [
-        "[concat('Microsoft.Devices/Iothubs/', variables('hubName'))]"
-      ]
-    },
+    /*StreamAnalytics Jobs*/
 	{
       "apiVersion": "[variables('sjVersion')]",
       "type": "Microsoft.StreamAnalytics/StreamingJobs",
@@ -302,7 +306,6 @@
             "query": "[variables('alertRulesQuery')]"
           }
         },
-        
         "dependsOn":[
           "[resourceId('Microsoft.Devices/IotHubs', variables('hubName'))]",
           "[resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName'))]"
@@ -343,7 +346,8 @@
                                     }
                                 },
                                 "method": "get",
-                                "path": "/@{encodeURIComponent(string('DemoNewRG002-iot'))}/messages/head"
+                                "path": "[concat('/@{encodeURIComponent(string(', variables('singleQuote'), variables('serviceBusIoTQueueName'), variables('singleQuote'), '))}/messages/head')]"
+
                             },
                             "conditions": []
                         }
@@ -383,7 +387,8 @@
                         "GetIotMessage": {
                             "runAfter": {},
                             "metadata": {
-                                "apiDefinitionUrl": "https://QueueMessageParserDemoNewRG002230eeaf1cdb54844be0.azurewebsites.net/swagger/docs/v1",
+                                "apiDefinitionUrl": "[concat('https://', variables('QueueMessageParserAppName'), '.azurewebsites.net/swagger/docs/v1')]",
+
                                 "swaggerSource": "website"
                             },
                             "type": "Http",
@@ -394,7 +399,8 @@
                                     "ContentType": "@{triggerBody()?['ContentType']}"
                                 },
                                 "method": "post",
-                                "uri": "https://QueueMessageParserDemoNewRG002230eeaf1cdb54844be0.azurewebsites.net:443/ParseAMQPMessage"
+                                "uri": "[concat('https://', variables('QueueMessageParserAppName'), '.azurewebsites.net:443/ParseAMQPMessage')]"
+
                             }
                         }
                     },
@@ -459,7 +465,8 @@
                                     }
                                 },
                                 "method": "get",
-                                "path": "/@{encodeURIComponent(string('DemoNewRG002-crm'))}/messages/head"
+                                "path": "[concat('/@{encodeURIComponent(string(', variables('singleQuote'), variables('serviceBusCRMQueueName'), variables('singleQuote'), '))}/messages/head')]"
+
                             },
                             "conditions": []
                         }
@@ -470,18 +477,18 @@
                                 "RetrieveDeviceTwins": {
                                     "runAfter": {},
                                     "metadata": {
-                                        "apiDefinitionUrl": "https://IoTHubDemoNewRG0023f166a4bbd284644bbdaee0c1cff747.azurewebsites.net/swagger/docs/v1",
+                                        "apiDefinitionUrl": "[concat('https://', variables('IotHubAppName'), '.azurewebsites.net/swagger/docs/v1')]",
                                         "swaggerSource": "website"
                                     },
                                     "type": "Http",
                                     "inputs": {
                                         "body": {
-                                            "ConnectionString": "HostName=DemoNewRG002c0687b7a2fae42b9897aab2f7392d75b.azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=FhpO11kQQ1+zwKmEPkLq9yEDrj3vaao7933JXahDlJs=",
+                                            "ConnectionString": "[concat('HostName=', variables('hubName'), '.azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey={primaryKey}')]",
                                             "DeviceIds": "@{body('GetCRMMessage').messageParameters?.DeviceIds}",
                                             "IncludeMetadata": "false"
                                         },
                                         "method": "post",
-                                        "uri": "https://IoTHubDemoNewRG0023f166a4bbd284644bbdaee0c1cff747.azurewebsites.net:443/RetrieveIoTHubDeviceTwins"
+                                        "uri": "[concat('https://', variables('IotHubAppName'), '.azurewebsites.net:443/RetrieveIoTHubDeviceTwins')]"
                                     }
                                 },
                                 "GetCRMDeviceDataHistoryContext": {
@@ -491,7 +498,7 @@
                                         ]
                                     },
                                     "metadata": {
-                                        "apiDefinitionUrl": "https://CRMHelperDemoNewRG00297ee62c673a34594a1f8b146e29c.azurewebsites.net/swagger/docs/v1",
+                                        "apiDefinitionUrl": "[concat('https://', variables('CRMHelperAppName'), '.azurewebsites.net/swagger/docs/v1')]",
                                         "swaggerSource": "website"
                                     },
                                     "type": "Http",
@@ -504,7 +511,7 @@
                                             }
                                         },
                                         "method": "post",
-                                        "uri": "https://CRMHelperDemoNewRG00297ee62c673a34594a1f8b146e29c.azurewebsites.net:443/GetDeviceDataHistoryContext"
+                                        "uri": "[concat('https://', variables('CRMHelperAppName'), '.azurewebsites.net:443/GetDeviceDataHistoryContext')]"
                                     }
                                 },
                                 "Create_Device_Data_RecordsScope": {
@@ -560,19 +567,20 @@
                                 "RegisterAndEnableDevicesWithIotHub": {
                                     "runAfter": {},
                                     "metadata": {
-                                        "apiDefinitionUrl": "https://IoTHubDemoNewRG0023f166a4bbd284644bbdaee0c1cff747.azurewebsites.net/swagger/docs/v1",
+                                        "apiDefinitionUrl": "[concat('https://', variables('IotHubAppName'), '.azurewebsites.net/swagger/docs/v1')]",
                                         "swaggerSource": "website"
                                     },
                                     "type": "Http",
                                     "inputs": {
                                         "body": {
-                                            "ConnectionString": "HostName=DemoNewRG002c0687b7a2fae42b9897aab2f7392d75b.azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=FhpO11kQQ1+zwKmEPkLq9yEDrj3vaao7933JXahDlJs=",
+                                            "ConnectionString": "[concat('HostName=', variables('hubName'), '.azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey={primaryKey}')]",
                                             "DeviceIds": "@body('GetCRMMessage').messageParameters.DeviceIds",
                                             "DeviceTags": "@body('GetCRMMessage').messageParameters?.IoTDeviceTags",
                                             "DeviceProperties": "@body('GetCRMMessage').messageParameters?.IoTDeviceSettings"
                                         },
                                         "method": "post",
-                                        "uri": "https://IoTHubDemoNewRG0023f166a4bbd284644bbdaee0c1cff747.azurewebsites.net:443/RegisterAndEnableDevices"
+                                        "uri": "[concat('https://', variables('IotHubAppName'), '.azurewebsites.net:443/RetrieveIoTHubDeviceTwins')]"
+
                                     }
                                 },
                                 "GetCRMDeviceUpdateContext": {
@@ -582,7 +590,7 @@
                                         ]
                                     },
                                     "metadata": {
-                                        "apiDefinitionUrl": "https://CRMHelperDemoNewRG00297ee62c673a34594a1f8b146e29c.azurewebsites.net/swagger/docs/v1",
+                                        "apiDefinitionUrl": "[concat('https://', variables('CRMHelperAppName'), '.azurewebsites.net/swagger/docs/v1')]",
                                         "swaggerSource": "website"
                                     },
                                     "type": "Http",
@@ -596,7 +604,7 @@
                                             }
                                         },
                                         "method": "post",
-                                        "uri": "https://CRMHelperDemoNewRG00297ee62c673a34594a1f8b146e29c.azurewebsites.net:443/GetRegistrationContext"
+                                        "uri": "[concat('https://', variables('CRMHelperAppName'), '.azurewebsites.net:443/GetRegistrationContext')]"
                                     }
                                 },
                                 "Update_an_itemScope": {
@@ -648,19 +656,19 @@
                                 "UpdateDeviceTwin": {
                                     "runAfter": {},
                                     "metadata": {
-                                        "apiDefinitionUrl": "https://IoTHubDemoNewRG0023f166a4bbd284644bbdaee0c1cff747.azurewebsites.net/swagger/docs/v1",
+                                        "apiDefinitionUrl": "[concat('https://', variables('IotHubAppName'), '.azurewebsites.net/swagger/docs/v1')]",
                                         "swaggerSource": "website"
                                     },
                                     "type": "Http",
                                     "inputs": {
                                         "body": {
-                                            "ConnectionString": "HostName=DemoNewRG002c0687b7a2fae42b9897aab2f7392d75b.azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=FhpO11kQQ1+zwKmEPkLq9yEDrj3vaao7933JXahDlJs=",
+                                            "ConnectionString": "[concat('HostName=', variables('hubName'), '.azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey={primaryKey}')]",
                                             "DeviceId": "@body('GetCRMMessage').messageParameters?.preImageAttributes?.msdyn_deviceid",
                                             "DeviceTags": "@body('GetCRMMessage').messageParameters?.attributes?.msdyn_tags",
                                             "DeviceProperties": "@body('GetCRMMessage').messageParameters?.attributes?.msdyn_devicesettings"
                                         },
                                         "method": "post",
-                                        "uri": "https://IoTHubDemoNewRG0023f166a4bbd284644bbdaee0c1cff747.azurewebsites.net:443/UpdateDeviceTwin"
+                                        "uri": "[concat('https://', variables('hubName'), '.azurewebsites.net:443/UpdateDeviceTwin')]"
                                     }
                                 }
                             },
@@ -684,18 +692,18 @@
                                         "SendMessageToAnIotHubDevice": {
                                             "runAfter": {},
                                             "metadata": {
-                                                "apiDefinitionUrl": "https://IoTHubDemoNewRG0023f166a4bbd284644bbdaee0c1cff747.azurewebsites.net/swagger/docs/v1",
+                                                "apiDefinitionUrl": "[concat('https://', variables('IotHubAppName'), '.azurewebsites.net/swagger/docs/v1')]",
                                                 "swaggerSource": "website"
                                             },
                                             "type": "Http",
                                             "inputs": {
                                                 "body": {
-                                                    "ConnectionString": "HostName=DemoNewRG002c0687b7a2fae42b9897aab2f7392d75b.azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey=FhpO11kQQ1+zwKmEPkLq9yEDrj3vaao7933JXahDlJs=",
+                                                    "ConnectionString": "[concat('HostName=', variables('hubName'), '.azure-devices.net;SharedAccessKeyName=iothubowner;SharedAccessKey={primaryKey}')]",
                                                     "DeviceId": "@body('GetCRMMessage').messageParameters.attributes.msdyn_deviceid",
                                                     "Message": "@coalesce(body('GetCRMMessage').messageParameters.attributes.msdyn_message, '')"
                                                 },
                                                 "method": "post",
-                                                "uri": "https://IoTHubDemoNewRG0023f166a4bbd284644bbdaee0c1cff747.azurewebsites.net:443/SendMessage"
+                                                "uri": "[concat('https://',variables('IotHubAppName'), '.azurewebsites.net:443/SendMessage')]"
                                             }
                                         },
                                         "Update_crm_command": {
@@ -791,7 +799,7 @@
                         "GetCRMMessage": {
                             "runAfter": {},
                             "metadata": {
-                                "apiDefinitionUrl": "https://QueueMessageParserDemoNewRG002230eeaf1cdb54844be0.azurewebsites.net/swagger/docs/v1",
+                                "apiDefinitionUrl": "[concat('https://', variables('QueueMessageParserAppName'), '.azurewebsites.net/swagger/docs/v1')]",
                                 "swaggerSource": "website"
                             },
                             "type": "Http",
@@ -802,7 +810,7 @@
                                     "ContentType": "@{triggerBody()['ContentType']}"
                                 },
                                 "method": "post",
-                                "uri": "https://QueueMessageParserDemoNewRG002230eeaf1cdb54844be0.azurewebsites.net:443/ParseMessage"
+                                "uri": "[concat('https://',variables('QueueMessageParserAppName'), '.azurewebsites.net:443/ParseMessage')]"
                             }
                         }
                     },
@@ -862,9 +870,10 @@
         },
          /*timeSeriesInsightTempalte.json*/
         {
+        //"condition":"[parameters('isTimeSeriesInsight')]",
+        "condition":"[equals(parameters('isTimeSeriesInsight'),'true')]",
         "apiVersion": "2020-05-15",
         "name": "[variables('timeSeriesInsightsName')]",
-        //"condition": "[equals(parameters('isTimeSeriesInsight'),'true')]",
         "location": "[variables('timeSeriesInsightsLocation')]",
         "type": "Microsoft.TimeSeriesInsights/environments",
         "kind": "[variables('environmentKind')]",
@@ -906,8 +915,9 @@
       },
         /*SQLDbTemplate.json*/
       {
+//      "condition": "[equals(parameters('isPowerBI'),'true')]",
+      "condition":"[parameters('isPowerBI')]",
       "name": "[variables('sqlserverName')]",
-      //"condition": "[contains(parameters('administratorLoginPassword'),'^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])[\\w~@#$%^&*+=|{}:;!.?\\()\\[\\]-]{8,}$')]",
       "type": "Microsoft.Sql/servers",
       "location": "[variables('sqlServerLocation')]",
       "tags": {
@@ -955,8 +965,9 @@
     },
     /*streamAnalyticsPBITemplate.json*/
     {
+      //"condition": "[equals(parameters('isPowerBI'),'ture')]",
+      "condition":"[parameters('isPowerBI')]",
       "apiVersion": "[variables('sjVersion')]",
-      //"condition": "[contains(parameters('administratorLogin'),'^[a-z0-9A-Z]{1,30}$')]",
       "type": "Microsoft.StreamAnalytics/StreamingJobs",
       "name": "[variables('rulesJobNamePBI')]",
       "location": "[variables('location')]",
@@ -1250,9 +1261,10 @@
               ]
       },
       {
+    //   "condition": "[equals(parameters('DeploySimulator'),'ture')]",
+      "condition":"[parameters('DeploySimulator')]",
+
       "name": "[variables('SimulatorAppName')]",
-      //"condition": "[parameters('DeploySimulator')]",
-      //"condition": "[equals(parameters('DeploySimulator'),'true')]",
       "type": "Microsoft.Web/sites",
       "location": "[resourceGroup().location]",
       "apiVersion": "2018-11-01",
@@ -1292,6 +1304,42 @@
 		"storageAccountName": {
       	"type": "string",
       	"value": "[variables('storageAccountName')]"
-    	}
+    	},
+        "storageKeys": {
+        "value": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName')), variables('saApiVersion'))]",
+        "type": "object"
+        },
+        "connectionAuthorizationUrl": {
+        "type": "string",
+        "value": "[concat('#resource/subscriptions/', parameters('subscriptionId'), '/resourceGroups/', resourceGroup().name, '/providers/Microsoft.Web/connections/', variables('commondataserviceName'), '/API Connection')]"
+        },
+        "hubKey": {
+        "value": "[listKeys(resourceId('Microsoft.Devices/IotHubs/Iothubkeys', variables('hubName'), 'iothubowner'), '2017-01-19').primaryKey]",
+        "type": "string"
+        },
+        "NamespaceConnectionString": {
+        "type": "string",
+        "value": "[listkeys(variables('authRuleResourceId'), variables('sbVersion')).primaryConnectionString]"
+        },
+        "SharedAccessPolicyPrimaryKey": {
+        "type": "string",
+        "value": "[listkeys(variables('authRuleResourceId'), variables('sbVersion')).primaryKey]"
+        },
+        "sqlServerName": {
+        "type": "string",
+        "value": "[reference(concat('Microsoft.Sql/servers/', variables('sqlserverName'))).fullyQualifiedDomainName]"
+        },
+        "databaseName" : {
+        "type" : "string",
+        "value" : "[variables('databaseName')]"
+        },
+        "connectionString" : {
+        "type": "string",
+        "value": "[concat('Server=tcp:', reference(concat('Microsoft.Sql/servers/', variables('sqlServerName'))).fullyQualifiedDomainName, ',1433;Initial Catalog=', variables('databaseName'), ';User Id=', parameters('administratorLogin'), '@', variables('sqlServerName'), ';Password=', parameters('administratorLoginPassword'), ';')]"
+        },
+        "dataAccessFqdn": {
+        "value": "[reference(resourceId('Microsoft.TimeSeriesInsights/environments', variables('timeSeriesInsightsName')), '2020-05-15').dataAccessFqdn]",
+        "type": "string"
+        }
 	}
 }
