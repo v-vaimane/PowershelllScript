@@ -2,15 +2,6 @@
     "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": { 
-        "environmentTimeSeriesIdProperties": {
-            "type": "array",
-            "defaultValue": [
-                {
-                 "name": "iothub-connection-device-id",
-                "type": "string"
-                }
-            ]
-        },
         "subscriptionId": {
         "type": "string",
          "defaultValue": "995f2d66-72ff-4037-92c3-1a72fddac360"
@@ -24,22 +15,6 @@
         "isPowerBI": {
         "type": "bool"
         },
-        // "isTimeSeriesInsight": {
-        // "type": "bool",
-        // "defaultValue": false,
-        // "allowedValues": [
-        //     true,
-        //     false
-        //    ]
-        // },
-        // "isPowerBI": {
-        // "type": "bool",
-        // "defaultValue": false,
-        // "allowedValues": [
-        //     true,
-        //     false
-        //   ]
-        // },
         "administratorLogin": {
         "type": "string",
         "defaultValue": "",
@@ -56,6 +31,7 @@
         }
      },
     "variables": {
+        "environmentTimeSeriesIdProperties":["iothub-connection-device-id"],
         "singleQuote": "'",
         "storageAccountType":"Standard_RAGRS",
         "sku":"Standard",
@@ -115,10 +91,7 @@
         "QueueMessageParserAppName": "[substring(format('QueueMessageParser-{0}-{1}', 'ServiceApp', variables('uniqueIdentifier')), 0, 43)]",
         "SimulatorAppName": "[substring(format('Simulator-{0}-{1}', 'ServiceApp', variables('uniqueIdentifier')), 0, 23)]",
         "defaultSASKeyName": "RootManageSharedAccessKey",
-        "authRuleResourceId": "[resourceId('Microsoft.ServiceBus/namespaces/authorizationRules', variables('serviceBusNamespaceName'), variables('defaultSASKeyName'))]",
-        "rulesOutputName": "[format('{0}-iot', variables('serviceBusNamespaceName'))]",
-        "rulesOutputNamespace": "[format('{0}-rulesOutput',variables('serviceBusNamespaceName'))]",
-        "rulesOutputServiceBusKey": ""
+        "authRuleResourceId": "[resourceId('Microsoft.ServiceBus/namespaces/authorizationRules', variables('serviceBusNamespaceName'), variables('defaultSASKeyName'))]"
     },
     "resources": [
 		{
@@ -870,7 +843,6 @@
         },
          /*timeSeriesInsightTempalte.json*/
         {
-        //"condition":"[parameters('isTimeSeriesInsight')]",
         "condition":"[equals(parameters('isTimeSeriesInsight'),'true')]",
         "apiVersion": "2020-05-15",
         "name": "[variables('timeSeriesInsightsName')]",
@@ -886,13 +858,14 @@
             "accountName": "[variables('storageAccountName')]",
             "managementKey": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName')), variables('saApiVersion')).keys[0].value]"
           },
-          "timeSeriesIdProperties": "[parameters('environmentTimeSeriesIdProperties')]"
+          "timeSeriesIdProperties": "[variables('environmentTimeSeriesIdProperties')]"
         },
         "dependsOn": [
               "[resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName'))]"
         ],
         "resources": [
           {
+            "condition":"[equals(parameters('isTimeSeriesInsight'),'true')]",
             "type": "eventsources",
             "kind": "Microsoft.IoTHub",
             "name": "[variables('timeSeriesInsightsEventSourceName')]",
@@ -915,8 +888,7 @@
       },
         /*SQLDbTemplate.json*/
       {
-//      "condition": "[equals(parameters('isPowerBI'),'true')]",
-      "condition":"[parameters('isPowerBI')]",
+      "condition":"[equals(parameters('isPowerBI'),'true')]",   
       "name": "[variables('sqlserverName')]",
       "type": "Microsoft.Sql/servers",
       "location": "[variables('sqlServerLocation')]",
@@ -931,6 +903,7 @@
       },
       "resources": [
         {
+          "condition":"[equals(parameters('isPowerBI'),'true')]",   
           "name": "[variables('databaseName')]",
           "type": "databases",
           "location": "[variables('sqlServerLocation')]",
@@ -949,6 +922,7 @@
           }
          },
         {
+          "condition":"[equals(parameters('isPowerBI'),'true')]",   
           "type": "firewallrules",
           "apiVersion": "2014-04-01",
           "dependsOn": [
@@ -965,8 +939,7 @@
     },
     /*streamAnalyticsPBITemplate.json*/
     {
-      //"condition": "[equals(parameters('isPowerBI'),'ture')]",
-      "condition":"[parameters('isPowerBI')]",
+      "condition": "[equals(parameters('isPowerBI'),'ture')]",
       "apiVersion": "[variables('sjVersion')]",
       "type": "Microsoft.StreamAnalytics/StreamingJobs",
       "name": "[variables('rulesJobNamePBI')]",
@@ -1261,9 +1234,7 @@
               ]
       },
       {
-    //   "condition": "[equals(parameters('DeploySimulator'),'ture')]",
-      "condition":"[parameters('DeploySimulator')]",
-
+      "condition":"[equals(parameters('DeploySimulator'),'true')]",
       "name": "[variables('SimulatorAppName')]",
       "type": "Microsoft.Web/sites",
       "location": "[resourceGroup().location]",
@@ -1278,6 +1249,7 @@
       },
       "resources": [
         {
+          "condition":"[equals(parameters('DeploySimulator'),'true')]",
           "name": "MSDeploy",
           "type": "extensions",
           "location": "[resourceGroup().location]",
@@ -1326,18 +1298,22 @@
         "value": "[listkeys(variables('authRuleResourceId'), variables('sbVersion')).primaryKey]"
         },
         "sqlServerName": {
+        "condition" : "[equals(parameters('isPowerBI'),'true')]",      
         "type": "string",
         "value": "[reference(concat('Microsoft.Sql/servers/', variables('sqlserverName'))).fullyQualifiedDomainName]"
         },
         "databaseName" : {
+        "condition" : "[equals(parameters('isPowerBI'),'true')]",      
         "type" : "string",
         "value" : "[variables('databaseName')]"
         },
         "connectionString" : {
+        "condition" : "[equals(parameters('isPowerBI'),'true')]",    
         "type": "string",
         "value": "[concat('Server=tcp:', reference(concat('Microsoft.Sql/servers/', variables('sqlServerName'))).fullyQualifiedDomainName, ',1433;Initial Catalog=', variables('databaseName'), ';User Id=', parameters('administratorLogin'), '@', variables('sqlServerName'), ';Password=', parameters('administratorLoginPassword'), ';')]"
         },
         "dataAccessFqdn": {
+        "condition" : "[equals(parameters('isTimeSeriesInsight'),'true')]",  
         "value": "[reference(resourceId('Microsoft.TimeSeriesInsights/environments', variables('timeSeriesInsightsName')), '2020-05-15').dataAccessFqdn]",
         "type": "string"
         }
