@@ -21,17 +21,6 @@
             }
           }
         },
-		    // {
-        //         "name": "TxtOrganization",
-        //         "type": "Microsoft.Common.TextBox",
-        //         "label": "Dynamics 365 organization",
-        //         "placeholder": "",
-        //         "toolTip": "Enter Organization detail",
-        //         "constraints": {
-        //             "required": true
-        //         },
-        //         "visible": true
-        // },
           {
               "name": "DeploySimulator",
               "type": "Microsoft.Common.CheckBox",
