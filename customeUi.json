@@ -52,7 +52,7 @@
               }
             },
           {
-              "name": "PowerBI",
+              "name": "isPowerBI",
               "type": "Microsoft.Common.CheckBox",
               "label": "Deploy SQL Server for Power BI (optional)",
               "toolTip": "Microsoft Power BI for device analytics can be included in your deployment. Choosing this will deploy two additional resources, Azure Streaming Analytics and SQL Server database."
@@ -63,7 +63,7 @@
               "type": "Microsoft.Solutions.ResourceSelector",
               "label": "SQL Server",
               "resourceType": "Microsoft.Sql/servers",
-              "visible": "[basics('mainSection').PowerBI]",
+              "visible": "[basics('mainSection').isPowerBI]",
               "options": {
                 "filter": {
                   "subscription": "onBasics",
@@ -74,7 +74,7 @@
           {
             "name": "text1",
             "type": "Microsoft.Common.InfoBox",
-            "visible": "[basics('mainSection').PowerBI]",
+            "visible": "[basics('mainSection').isPowerBI]",
             "options": {
               "icon": "None",
               "text": "Enter the new username and password for creating the database."
@@ -84,7 +84,7 @@
             "name": "administratorLogin",
             "type": "Microsoft.Compute.UserNameTextBox",
             "label": "SQL Server admin username",
-            "visible": "[basics('mainSection').PowerBI]",
+            "visible": "[basics('mainSection').isPowerBI]",
             "toolTip": "Make sure your login name meets the following requirements - It's a SQL Identifier, and not a typical system name (like admin, administrator, sa, root, dbmanager, loginmanager, etc.), or a built-in database user or role (like dbo, guest, public, etc.). Make sure your name doesn't contain whitespaces, unicode characters, or nonalphabetic characters, and that it doesn't begin with numbers or symbols.   ",
             "constraints": {
               "required": true,
@@ -101,7 +101,7 @@
             "confirmPassword": "Confirm password"
             },
             "toolTip": "Your password cannot contain all or part of the username. Part of a username is defined as three or more consecutive alphanumeric characters.",
-            "visible": "[basics('mainSection').PowerBI]",
+            "visible": "[basics('mainSection').isPowerBI]",
             "constraints": {
               "required": true
               },
@@ -120,7 +120,7 @@
       "DeploySimulator": "[basics('mainSection').DeploySimulator]",
       "ApplicationID": "[basics('mainSection').ApplicationID]",
       "ClientSecretID": "[basics('mainSection').ClientSecretID]",
-      "PowerBI": "[basics('mainSection').PowerBI]",
+      "isPowerBI": "[basics('mainSection').isPowerBI]",
       "administratorLogin": "[basics('mainSection').administratorLogin]",
       "administratorLoginPassword": "[basics('mainSection').administratorLoginPassword]"
     }
