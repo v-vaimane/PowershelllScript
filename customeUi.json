@@ -48,6 +48,12 @@
               "visible": true
           },
           {
+            "name": "DeploySimulator",
+            "type": "Microsoft.Common.CheckBox",
+            "label": "Deploy Simulator",
+            "toolTip": "We will deploy new resources to your Azure subscription. To use existing IoT Hub, storage account, or Service Bus resources, select Use existing Azure resources."
+        },
+          {
             "name": "isTimeSeriesInsight",
             "type": "Microsoft.Common.DropDown",
             "label": "Deploy Azure Time Series Insights (optional)",
@@ -164,7 +170,7 @@
     "steps": [],
     "outputs": {
       "crmOrgId": "[basics('mainSection').crmOrgId]",
-      "CrmURL": "[basics('mainSection').crmOrgId]",
+      "CrmURL": "[basics('mainSection').CrmURL]",
       "SQLServer": "[basics('mainSection').SQLServer]",
       "isTimeSeriesInsight": "[basics('mainSection').isTimeSeriesInsight]",
       "DeploySimulator": "[basics('mainSection').DeploySimulator]",
