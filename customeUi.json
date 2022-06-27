@@ -131,7 +131,7 @@
         "SQLServer": "[basics('mainSection').SQLServer]",
         "SubscriptionID": "[basics('mainSection').SubscriptionID]",
         "isTimeSeriesInsight": "[basics('mainSection').isTimeSeriesInsight]",
-        "outDropDown": "[steps('mainSection').DeploySimulator]",
+        "DeploySimulator": "[steps('mainSection').DeploySimulator]",
         "ApplicationID": "[basics('mainSection').ApplicationID]",
         "ClientSecretID": "[basics('mainSection').ClientSecretID]",
         "isPowerBI": "[basics('mainSection').isPowerBI]",
