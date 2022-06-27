@@ -30,12 +30,24 @@
             "defaultValue": [
                 {
                  "name": "iothub-connection-device-id",
-                "type": "string"
+                 "type": "string"
                 }
             ]
+        },
+        "crmOrgId": {
+            "type": "string"
+        },
+        "Organizationurl": {
+            "type": "string",
+            "defaultValue": "https://testorg06231.api.crm10.dynamics.com/api/data/v9.2/"
         }
      },
     "variables": {
+        //"delimiters": [ ",", ";" ],
+        //"Orgurl":"[split(parameters('Organizationurl'),',')]",
+        //"searchstring":"[startsWith('Orgurl', '.crm')]",
+        //"Orgid":"[concat(parameters('OrganizationId'),variables('searchstring'))]",
+        "discoveryServerSuffix":"crm10",
         "subscriptionId":"[subscription().subscriptionId]",
         "singleQuote": "'",
         "storageAccountType":"Standard_RAGRS",
@@ -351,7 +363,7 @@
                                             }
                                         },
                                         "method": "post",
-                                        "path": "/v2/datasets/@{encodeURIComponent(string('unq1c0860f575daec1182f000224820c.crm10'))}/tables/@{encodeURIComponent(string('msdyn_iotalerts'))}/items"
+                                        "path": "[concat('/v2/datasets/@{encodeURIComponent(string(', variables('singleQuote'), parameters('crmOrgId'), '.', variables('discoveryServerSuffix'), variables('singleQuote'), '))}/tables/@{encodeURIComponent(string(', variables('singleQuote'), 'msdyn_iotalerts', variables('singleQuote'), '))}/items')]"
                                     }
                                 }
                             },
@@ -405,6 +417,7 @@
               "[resourceId('Microsoft.Web/connections', variables('connections_SBMessage_name'))]"
             ]
         },
+        /*CRM-To-IoT*/
         {
             "type": "Microsoft.Logic/workflows",
             "apiVersion": "2017-07-01",
@@ -515,7 +528,7 @@
                                                     }
                                                 },
                                                 "method": "post",
-                                                "path": "/v2/datasets/@{encodeURIComponent(string('unq1c0860f575daec1182f000224820c.crm10'))}/tables/@{encodeURIComponent(string('msdyn_iotdevicedatahistory'))}/items"
+                                                "path": "[concat('/v2/datasets/@{encodeURIComponent(string(', variables('singleQuote'), parameters('crmOrgId'), '.', variables('discoveryServerSuffix'), variables('singleQuote'), '))}/tables/@{encodeURIComponent(string(', variables('singleQuote'), 'msdyn_iotdevicedatahistory', variables('singleQuote'), '))}/items')]"
                                             }
                                         }
                                     },
@@ -604,7 +617,7 @@
                                                     }
                                                 },
                                                 "method": "patch",
-                                                "path": "/v2/datasets/@{encodeURIComponent(string('unq1c0860f575daec1182f000224820c.crm10'))}/tables/@{encodeURIComponent(string('msdyn_iotdevices'))}/items/@{encodeURIComponent(string(item()['id']))}"
+                                                "path": "[concat('/v2/datasets/@{encodeURIComponent(string(', variables('singleQuote'), parameters('crmOrgId'), '.', variables('discoveryServerSuffix'), variables('singleQuote'), '))}/tables/@{encodeURIComponent(string(', variables('singleQuote'), 'msdyn_iotdevices', variables('singleQuote'), '))}/items/@{encodeURIComponent(string(item()[', variables('singleQuote'), 'id', variables('singleQuote'), ']))}')]"
                                             }
                                         }
                                     },
@@ -703,7 +716,7 @@
                                                     }
                                                 },
                                                 "method": "patch",
-                                                "path": "/v2/datasets/@{encodeURIComponent(string('unq1c0860f575daec1182f000224820c.crm10'))}/tables/@{encodeURIComponent(string('msdyn_iotdevicecommands'))}/items/@{encodeURIComponent(string(body('GetCRMMessage').messageParameters.attributes.msdyn_iotdevicecommandid))}"
+                                                "path": "[concat('/v2/datasets/@{encodeURIComponent(string(', variables('singleQuote'), parameters('crmOrgId'), '.', variables('discoveryServerSuffix'), variables('singleQuote'), '))}/tables/@{encodeURIComponent(string(', variables('singleQuote'), 'msdyn_iotdevicecommands', variables('singleQuote'), '))}/items/@{encodeURIComponent(string(body(', variables('singleQuote'), 'GetCRMMessage', variables('singleQuote'), ').messageParameters.attributes.msdyn_iotdevicecommandid))}')]"
                                             }
                                         }
                                     },
@@ -727,7 +740,7 @@
                                                     }
                                                 },
                                                 "method": "patch",
-                                                "path": "/v2/datasets/@{encodeURIComponent(string('unq1c0860f575daec1182f000224820c.crm10'))}/tables/@{encodeURIComponent(string('msdyn_iotdevicecommands'))}/items/@{encodeURIComponent(string(body('GetCRMMessage').messageParameters.attributes.msdyn_iotdevicecommandid))}"
+                                                "path": "[concat('/v2/datasets/@{encodeURIComponent(string(', variables('singleQuote'), parameters('crmOrgId'), '.', variables('discoveryServerSuffix'), variables('singleQuote'), '))}/tables/@{encodeURIComponent(string(', variables('singleQuote'), 'msdyn_iotdevicecommands', variables('singleQuote'), '))}/items/@{encodeURIComponent(string(body(', variables('singleQuote'), 'GetCRMMessage', variables('singleQuote'), ').messageParameters.attributes.msdyn_iotdevicecommandid))}')]"
                                             }
                                         }
                                     },
