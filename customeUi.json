@@ -27,26 +27,6 @@
             "required": true
           }
         },  
-        {
-              "name": "DeploySimulator",
-              "type": "Microsoft.Common.DropDown",
-              "label": "Deploy Simulator",
-              "defaultValue": "False",
-              "toolTip": "We will deploy new resources to your Azure subscription. To use existing IoT Hub, storage account, or Service Bus resources, select Use existing Azure resources.",
-              "constraints": {
-                  "allowedValues": [
-                      {
-                          "label": "Yes",
-                          "value": "Yes"
-                      },
-                      {
-                          "label": "False",
-                          "value": "False"
-                      }
-                  ]
-              },
-              "visible": true
-          },
           {
             "name": "DeploySimulator",
             "type": "Microsoft.Common.CheckBox",
