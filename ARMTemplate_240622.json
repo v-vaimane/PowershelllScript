@@ -3,7 +3,7 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "DeploySimulator": {
-      "type": "string"
+      "type": "bool"
     },
     "isTimeSeriesInsight": {
       "type": "string"
@@ -1259,7 +1259,7 @@
       ]
     },
     {
-      "condition": "[equals(parameters('DeploySimulator'),'Yes')]",
+      "condition": "[equals(parameters('DeploySimulator'),'true')]",
       "name": "[variables('SimulatorAppName')]",
       "type": "Microsoft.Web/sites",
       "location": "[resourceGroup().location]",
@@ -1274,7 +1274,7 @@
       },
       "resources": [
         {
-          "condition": "[equals(parameters('DeploySimulator'),'Yes')]",
+          "condition": "[equals(parameters('DeploySimulator'),'true')]",
           "name": "MSDeploy",
           "type": "extensions",
           "location": "[resourceGroup().location]",
