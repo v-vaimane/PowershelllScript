@@ -9,18 +9,6 @@
         "type": "Microsoft.Common.Section",
         "label": "Deploying resources using ARM template",  
         "elements": [
-          {
-            "name": "SubscriptionID",
-            "type": "Microsoft.Common.TextBox",
-            "label": "Subscription ID",
-            "visible": "True",
-            "options": {
-              "filter": {
-                "subscription": "onBasics",
-                "location": "onBasics"
-              }
-            }
-          },
             {
                 "name": "DeploySimulator",
                 "type": "Microsoft.Common.DropDown",
@@ -129,7 +117,6 @@
       "steps": [],
       "outputs": {
         "SQLServer": "[basics('mainSection').SQLServer]",
-        "SubscriptionID": "[basics('mainSection').SubscriptionID]",
         "isTimeSeriesInsight": "[basics('mainSection').isTimeSeriesInsight]",
         "DeploySimulator": "[basics('mainSection').DeploySimulator]",
         "ApplicationID": "[basics('mainSection').ApplicationID]",
