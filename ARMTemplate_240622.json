@@ -2,12 +2,8 @@
     "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": { 
-        "subscriptionId": {
-        "type": "string",
-         "defaultValue": "995f2d66-72ff-4037-92c3-1a72fddac360"
-        },
         "DeploySimulator": {
-            "type": "bool"
+            "type": "string"
         },
         "isTimeSeriesInsight": {
         "type": "bool"
@@ -31,6 +27,7 @@
         }
      },
     "variables": {
+        "subscriptionId":"[subscription().subscriptionId]",
         "environmentTimeSeriesIdProperties":["iothub-connection-device-id"],
         "singleQuote": "'",
         "storageAccountType":"Standard_RAGRS",
@@ -117,7 +114,7 @@
                     "description": "Connect to Azure Service Bus to send and receive messages. You can perform actions such as send to queue, send to topic, receive from queue, receive from subscription, etc.",
                     "iconUri": "https://connectoricons-prod.azureedge.net/releases/v1.0.1568/1.0.1568.2757/servicebus/icon.png",
                     "brandColor": "#c4d5ff",
-                    "id": "[concat('/subscriptions/', parameters('subscriptionId'), '/providers/Microsoft.Web/locations/', resourceGroup().location, '/managedApis/servicebus')]",
+                    "id": "[concat('/subscriptions/', variables('subscriptionId'), '/providers/Microsoft.Web/locations/', resourceGroup().location, '/managedApis/servicebus')]",
                     "type": "Microsoft.Web/locations/managedApis"
                 },
                 "testLinks": []
@@ -383,11 +380,11 @@
                     "$connections": {
                         "value": {
                             "servicebus": {
-                                "id": "[concat('/subscriptions/', parameters('subscriptionId'), '/providers/Microsoft.Web/locations/', resourceGroup().location, '/managedApis/',variables('serviceBusNamespaceName'))]",
+                                "id": "[concat('/subscriptions/', variables('subscriptionId'), '/providers/Microsoft.Web/locations/', resourceGroup().location, '/managedApis/',variables('serviceBusNamespaceName'))]",
                                 "connectionId": "[resourceId('Microsoft.Web/connections', variables('connections_SBMessage_name'))]"
                             },
                             "commondataservice": {
-                                "id": "[concat('/subscriptions/', parameters('subscriptionId'), '/providers/Microsoft.Web/locations/', resourceGroup().location, '/managedApis/',variables('commondataserviceName'))]",
+                                "id": "[concat('/subscriptions/', variables('subscriptionId'), '/providers/Microsoft.Web/locations/', resourceGroup().location, '/managedApis/',variables('commondataserviceName'))]",
                                 "connectionId": "[resourceId('Microsoft.Web/connections', variables('commondataserviceName'))]"
                                
                             }
@@ -793,12 +790,12 @@
                     "$connections": {
                         "value": {
                             "servicebus": {
-                                "id": "[concat('/subscriptions/', parameters('subscriptionId'), '/providers/Microsoft.Web/locations/', resourceGroup().location, '/managedApis/servicebus')]",
+                                "id": "[concat('/subscriptions/', variables('subscriptionId'), '/providers/Microsoft.Web/locations/', resourceGroup().location, '/managedApis/servicebus')]",
                                 "connectionId": "[resourceId('Microsoft.Web/connections', variables('connections_SBMessage_name'))]"
 
                             },
                             "commondataservice": {
-                                "id": "[concat('/subscriptions/', parameters('subscriptionId'), '/providers/Microsoft.Web/locations/', resourceGroup().location, '/managedApis/commondataservice')]",
+                                "id": "[concat('/subscriptions/', variables('subscriptionId'), '/providers/Microsoft.Web/locations/', resourceGroup().location, '/managedApis/commondataservice')]",
                                 "connectionId": "[resourceId('Microsoft.Web/connections', variables('commondataserviceName'))]"
                             }
                         }
@@ -835,7 +832,7 @@
                     "description": "Provides access to the environment database in Microsoft Dataverse.",
                     "iconUri": "[concat('https://connectoricons-prod.azureedge.net/releases/v1.0.1577/1.0.1577.2796/', variables('commondataserviceName'), '/icon.png')]",
                     "brandColor": "#637080",
-                    "id": "[concat('/subscriptions/', parameters('subscriptionId'), '/providers/Microsoft.Web/locations/', resourceGroup().location, '/managedApis/commondataservice')]",
+                    "id": "[concat('/subscriptions/', variables('subscriptionId'), '/providers/Microsoft.Web/locations/', resourceGroup().location, '/managedApis/commondataservice')]",
                     "type": "Microsoft.Web/locations/managedApis"
                 },
                 "testLinks": []
@@ -1283,7 +1280,7 @@
         },
         "connectionAuthorizationUrl": {
         "type": "string",
-        "value": "[concat('#resource/subscriptions/', parameters('subscriptionId'), '/resourceGroups/', resourceGroup().name, '/providers/Microsoft.Web/connections/', variables('commondataserviceName'), '/API Connection')]"
+        "value": "[concat('#resource/subscriptions/', variables('subscriptionId'), '/resourceGroups/', resourceGroup().name, '/providers/Microsoft.Web/connections/', variables('commondataserviceName'), '/API Connection')]"
         },
         "hubKey": {
         "value": "[listKeys(resourceId('Microsoft.Devices/IotHubs/Iothubkeys', variables('hubName'), 'iothubowner'), '2017-01-19').primaryKey]",
