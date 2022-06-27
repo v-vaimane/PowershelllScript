@@ -17,6 +17,15 @@
           "constraints": {
             "required": true
           }
+        }, 
+		{
+          "name": "CrmURL",
+          "type": "Microsoft.Common.TextBox",
+          "label": "CRM Organization URL",
+          "visible": true,
+          "constraints": {
+            "required": true
+          }
         },  
         {
               "name": "DeploySimulator",
@@ -141,7 +150,9 @@
             "toolTip": "Your password cannot contain all or part of the username. Part of a username is defined as three or more consecutive alphanumeric characters.",
             "visible": "[contains(basics('mainSection').isPowerBI,'Yes')]",
             "constraints": {
-              "required": true
+              "required": true,
+
+			  "customValidationMessage":"Your password cannot contain all or part of the username. Part of a username is defined as three or more consecutive alphanumeric characters."
               },
             "options": {
                 "hideConfirmation": false
@@ -153,6 +164,7 @@
     "steps": [],
     "outputs": {
       "crmOrgId": "[basics('mainSection').crmOrgId]",
+      "CrmURL": "[basics('mainSection').crmOrgId]",
       "SQLServer": "[basics('mainSection').SQLServer]",
       "isTimeSeriesInsight": "[basics('mainSection').isTimeSeriesInsight]",
       "DeploySimulator": "[basics('mainSection').DeploySimulator]",
