@@ -154,7 +154,6 @@
       "CrmURL": "[basics('mainSection').CrmURL]",
       "SQLServer": "[basics('mainSection').SQLServer]",
       "isTimeSeriesInsight": "[basics('mainSection').isTimeSeriesInsight]",
-      "DeploySimulator": "[basics('mainSection').DeploySimulator]",
       "ApplicationID": "[basics('mainSection').ApplicationID]",
       "ClientSecretID": "[basics('mainSection').ClientSecretID]",
       "isPowerBI": "[basics('mainSection').isPowerBI]",
