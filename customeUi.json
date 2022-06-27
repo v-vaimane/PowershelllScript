@@ -115,11 +115,8 @@
     "outputs": {
       "SQLServer": "[basics('mainSection').SQLServer]",
       "SubscriptionID": "[basics('mainSection').SubscriptionID]",
-      "isTimeSeriesInsight": "[basics('mainSection').isTimeSeriesInsight]",
-      "DeploySimulator": "[basics('mainSection').DeploySimulator]",
       "ApplicationID": "[basics('mainSection').ApplicationID]",
       "ClientSecretID": "[basics('mainSection').ClientSecretID]",
-      "isPowerBI": "[basics('mainSection').isPowerBI]",
       "administratorLogin": "[basics('mainSection').administratorLogin]",
       "administratorLoginPassword": "[basics('mainSection').administratorLoginPassword]"
     }
