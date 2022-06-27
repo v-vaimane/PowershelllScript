@@ -24,11 +24,19 @@
         "metadata": {
             "description": "Password for SQL server"
         }
+        },
+        "environmentTimeSeriesIdProperties": {
+            "type": "array",
+            "defaultValue": [
+                {
+                 "name": "iothub-connection-device-id",
+                "type": "string"
+                }
+            ]
         }
      },
     "variables": {
         "subscriptionId":"[subscription().subscriptionId]",
-        "environmentTimeSeriesIdProperties":["iothub-connection-device-id"],
         "singleQuote": "'",
         "storageAccountType":"Standard_RAGRS",
         "sku":"Standard",
@@ -855,7 +863,7 @@
             "accountName": "[variables('storageAccountName')]",
             "managementKey": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName')), variables('saApiVersion')).keys[0].value]"
           },
-          "timeSeriesIdProperties": "[variables('environmentTimeSeriesIdProperties')]"
+          "timeSeriesIdProperties": "[parameters('environmentTimeSeriesIdProperties')]"
         },
         "dependsOn": [
               "[resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName'))]"
