@@ -33,7 +33,7 @@
             "label": "Deploy Simulator",
             "toolTip": "We will deploy new resources to your Azure subscription. To use existing IoT Hub, storage account, or Service Bus resources, select Use existing Azure resources.",
             "visible": true,
-	    "defaultValue": "False",  
+	    "defaultValue": false  
           },
           {
             "name": "isTimeSeriesInsight",
