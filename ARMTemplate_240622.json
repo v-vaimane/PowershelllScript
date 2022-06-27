@@ -3,7 +3,7 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "DeploySimulator": {
-      "type": "string",
+      "type": "string"
     },
     "isTimeSeriesInsight": {
       "type": "string"
