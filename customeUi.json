@@ -9,7 +9,16 @@
       "type": "Microsoft.Common.Section",
       "label": "Deploying resources using ARM template",  
       "elements": [
-          {
+        {
+          "name": "crmOrgId",
+          "type": "Microsoft.Common.TextBox",
+          "label": "CRM Organization Id",
+          "visible": true,
+          "constraints": {
+            "required": true
+          }
+        },  
+        {
               "name": "DeploySimulator",
               "type": "Microsoft.Common.DropDown",
               "label": "Deploy Simulator",
@@ -143,6 +152,7 @@
     ],
     "steps": [],
     "outputs": {
+      "crmOrgId": "[basics('mainSection').OrganizationId]",
       "SQLServer": "[basics('mainSection').SQLServer]",
       "isTimeSeriesInsight": "[basics('mainSection').isTimeSeriesInsight]",
       "DeploySimulator": "[basics('mainSection').DeploySimulator]",
