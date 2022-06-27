@@ -13,7 +13,7 @@
               "name": "DeploySimulator",
               "type": "Microsoft.Common.DropDown",
               "label": "Deploy Simulator",
-              "defaultValue": "false",
+              "defaultValue": "False",
               "toolTip": "We will deploy new resources to your Azure subscription. To use existing IoT Hub, storage account, or Service Bus resources, select Use existing Azure resources.",
               "constraints": {
                   "allowedValues": [
@@ -33,7 +33,7 @@
             "name": "isTimeSeriesInsight",
             "type": "Microsoft.Common.DropDown",
             "label": "Deploy Azure Time Series Insights (optional)",
-            "defaultValue": "false",
+            "defaultValue": "False",
             "toolTip": "Time Series Insights can be included in your deployment for detailed device insights and analytics.",
             "constraints": {
                 "allowedValues": [
@@ -53,7 +53,7 @@
               "name": "ApplicationID",
               "type": "Microsoft.Common.TextBox",
               "label": "Application (client) ID",
-              "visible": "[basics('mainSection').isTimeSeriesInsight]",
+              "visible": "[contains(basics('mainSection').isTimeSeriesInsight,'Yes')]",
               "constraints": {
                 "required": true
               }
@@ -62,7 +62,7 @@
               "name": "ClientSecretID",
               "type": "Microsoft.Common.TextBox",
               "label": "Client Secret",
-              "visible": "[basics('mainSection').isTimeSeriesInsight]",
+              "visible": "[contains(basics('mainSection').isTimeSeriesInsight,'Yes')]",
               "constraints": {
                 "required": true
               }
@@ -71,7 +71,7 @@
               "name": "isPowerBI",
               "type": "Microsoft.Common.DropDown",
               "label": "Deploy SQL Server for Power BI (optional)",
-              "defaultValue": "false",
+              "defaultValue": "False",
               "toolTip": "Microsoft Power BI for device analytics can be included in your deployment. Choosing this will deploy two additional resources, Azure Streaming Analytics and SQL Server database.",
               "constraints": {
                   "allowedValues": [
@@ -92,7 +92,7 @@
               "type": "Microsoft.Solutions.ResourceSelector",
               "label": "SQL Server",
               "resourceType": "Microsoft.Sql/servers",
-              "visible": "[basics('mainSection').isPowerBI]",
+              "visible": "[contains(basics('mainSection').isPowerBI,'Yes')]",
               "options": {
                 "filter": {
                   "subscription": "onBasics",
@@ -103,7 +103,7 @@
           {
             "name": "text1",
             "type": "Microsoft.Common.InfoBox",
-            "visible": "[basics('mainSection').isPowerBI]",
+            "visible": "[contains(basics('mainSection').isPowerBI,'Yes')]",
             "options": {
               "icon": "None",
               "text": "Enter the new username and password for creating the database."
@@ -113,7 +113,7 @@
             "name": "administratorLogin",
             "type": "Microsoft.Compute.UserNameTextBox",
             "label": "SQL Server admin username",
-            "visible": "[basics('mainSection').isPowerBI]",
+            "visible": "[contains(basics('mainSection').isPowerBI,'Yes')]",
             "toolTip": "Make sure your login name meets the following requirements - It's a SQL Identifier, and not a typical system name (like admin, administrator, sa, root, dbmanager, loginmanager, etc.), or a built-in database user or role (like dbo, guest, public, etc.). Make sure your name doesn't contain whitespaces, unicode characters, or nonalphabetic characters, and that it doesn't begin with numbers or symbols.   ",
             "constraints": {
               "required": true,
@@ -130,7 +130,7 @@
             "confirmPassword": "Confirm password"
             },
             "toolTip": "Your password cannot contain all or part of the username. Part of a username is defined as three or more consecutive alphanumeric characters.",
-            "visible": "[basics('mainSection').isPowerBI]",
+            "visible": "[contains(basics('mainSection').isPowerBI,'Yes')]",
             "constraints": {
               "required": true
               },
