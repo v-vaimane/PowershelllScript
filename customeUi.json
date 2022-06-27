@@ -32,8 +32,7 @@
             "type": "Microsoft.Common.CheckBox",
             "label": "Deploy Simulator",
             "toolTip": "We will deploy new resources to your Azure subscription. To use existing IoT Hub, storage account, or Service Bus resources, select Use existing Azure resources.",
-            "visible": true,
-	    "defaultValue": false  
+            "visible": true
           },
           {
             "name": "isTimeSeriesInsight",
