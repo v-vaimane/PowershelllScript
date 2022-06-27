@@ -840,7 +840,7 @@
         },
          /*timeSeriesInsightTempalte.json*/
         {
-        "condition":"[equals(parameters('isTimeSeriesInsight'),'True')]",
+        "condition":"[equals(parameters('isTimeSeriesInsight'),'true')]",
         "apiVersion": "2020-05-15",
         "name": "[variables('timeSeriesInsightsName')]",
         "location": "[variables('timeSeriesInsightsLocation')]",
@@ -862,7 +862,7 @@
         ],
         "resources": [
           {
-            "condition":"[equals(parameters('isTimeSeriesInsight'),'True')]",
+            "condition":"[equals(parameters('isTimeSeriesInsight'),'true')]",
             "type": "eventsources",
             "kind": "Microsoft.IoTHub",
             "name": "[variables('timeSeriesInsightsEventSourceName')]",
@@ -1310,7 +1310,7 @@
         "value": "[concat('Server=tcp:', reference(concat('Microsoft.Sql/servers/', variables('sqlServerName'))).fullyQualifiedDomainName, ',1433;Initial Catalog=', variables('databaseName'), ';User Id=', parameters('administratorLogin'), '@', variables('sqlServerName'), ';Password=', parameters('administratorLoginPassword'), ';')]"
         },
         "dataAccessFqdn": {
-        "condition" : "[equals(parameters('isTimeSeriesInsight'),'True')]",  
+        "condition" : "[equals(parameters('isTimeSeriesInsight'),'true')]",  
         "value": "[reference(resourceId('Microsoft.TimeSeriesInsights/environments', variables('timeSeriesInsightsName')), '2020-05-15').dataAccessFqdn]",
         "type": "string"
         }
