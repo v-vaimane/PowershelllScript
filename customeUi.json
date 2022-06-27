@@ -152,7 +152,7 @@
     ],
     "steps": [],
     "outputs": {
-      "crmOrgId": "[basics('mainSection').OrganizationId]",
+      "crmOrgId": "[basics('mainSection').crmOrgId]",
       "SQLServer": "[basics('mainSection').SQLServer]",
       "isTimeSeriesInsight": "[basics('mainSection').isTimeSeriesInsight]",
       "DeploySimulator": "[basics('mainSection').DeploySimulator]",
