@@ -29,11 +29,24 @@
         },  
           {
             "name": "DeploySimulator",
-            "type": "Microsoft.Common.CheckBox",
+            "type": "Microsoft.Common.DropDown",
             "label": "Deploy Simulator",
+            "defaultValue": "False",
             "toolTip": "We will deploy new resources to your Azure subscription. To use existing IoT Hub, storage account, or Service Bus resources, select Use existing Azure resources.",
+            "constraints": {
+                "allowedValues": [
+                    {
+                        "label": "Yes",
+                        "value": "Yes"
+                    },
+                    {
+                        "label": "False",
+                        "value": "False"
+                    }
+                ]
+            },
             "visible": true
-          },
+        },
           {
             "name": "isTimeSeriesInsight",
             "type": "Microsoft.Common.DropDown",
@@ -154,6 +167,7 @@
       "CrmURL": "[basics('mainSection').CrmURL]",
       "SQLServer": "[basics('mainSection').SQLServer]",
       "isTimeSeriesInsight": "[basics('mainSection').isTimeSeriesInsight]",
+      "DeploySimulator": "[basics('mainSection').DeploySimulator]",
       "ApplicationID": "[basics('mainSection').ApplicationID]",
       "ClientSecretID": "[basics('mainSection').ClientSecretID]",
       "isPowerBI": "[basics('mainSection').isPowerBI]",
