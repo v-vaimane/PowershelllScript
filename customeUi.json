@@ -27,25 +27,11 @@
             "required": true
           }
         },  
-          {
-            "name": "DeploySimulator",
-            "type": "Microsoft.Common.DropDown",
-            "label": "Deploy Simulator",
-            "defaultValue": "False",
-            "toolTip": "We will deploy new resources to your Azure subscription. To use existing IoT Hub, storage account, or Service Bus resources, select Use existing Azure resources.",
-            "constraints": {
-                "allowedValues": [
-                    {
-                        "label": "Yes",
-                        "value": "Yes"
-                    },
-                    {
-                        "label": "False",
-                        "value": "False"
-                    }
-                ]
-            },
-            "visible": true
+        {
+          "name": "DeploySimulator",
+          "type": "Microsoft.Common.CheckBox",
+          "label": "Deploy Simulator",
+          "toolTip": "We will deploy new resources to your Azure subscription. To use existing IoT Hub, storage account, or Service Bus resources, select Use existing Azure resources."
         },
           {
             "name": "isTimeSeriesInsight",
@@ -60,8 +46,8 @@
                         "value": "Yes"
                     },
                     {
-                        "label": "False",
-                        "value": "False"
+                        "label": "No",
+                        "value": "No"
                     }
                 ]
             },
@@ -98,15 +84,15 @@
                           "value": "Yes"
                       },
                       {
-                          "label": "False",
-                          "value": "False"
+                          "label": "No",
+                          "value": "No"
                       }
                   ]
               },
               "visible": true
           },  
           {
-              "name": "SQLServer",
+              "name": "existingSQLServer",
               "type": "Microsoft.Solutions.ResourceSelector",
               "label": "SQL Server",
               "resourceType": "Microsoft.Sql/servers",
@@ -165,7 +151,7 @@
     "outputs": {
       "crmOrgId": "[basics('mainSection').crmOrgId]",
       "CrmURL": "[basics('mainSection').CrmURL]",
-      "SQLServer": "[basics('mainSection').SQLServer]",
+      "existingSQLServer": "[basics('mainSection').existingSQLServer.name]",
       "isTimeSeriesInsight": "[basics('mainSection').isTimeSeriesInsight]",
       "DeploySimulator": "[basics('mainSection').DeploySimulator]",
       "ApplicationID": "[basics('mainSection').ApplicationID]",
