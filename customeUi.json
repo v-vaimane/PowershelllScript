@@ -43,7 +43,7 @@
             "name": "ApplicationID",
             "type": "Microsoft.Common.TextBox",
             "label": "Application (client) ID",
-            "visible": "[contains(basics('mainSection').isTimeSeriesInsight,'Yes')]",
+            "visible": "[basics('mainSection').isTimeSeriesInsight]",
             "constraints": {
               "required": true
             }
@@ -52,7 +52,7 @@
             "name": "ClientSecretID",
             "type": "Microsoft.Common.TextBox",
             "label": "Client Secret",
-            "visible": "[contains(basics('mainSection').isTimeSeriesInsight,'Yes')]",
+            "visible": "[basics('mainSection').isTimeSeriesInsight]",
             "constraints": {
               "required": true
             }
@@ -68,7 +68,7 @@
             "type": "Microsoft.Solutions.ResourceSelector",
             "label": "SQL Server",
             "resourceType": "Microsoft.Sql/servers",
-            "visible": "[contains(basics('mainSection').isPowerBI,'Yes')]",
+            "visible": "[basics('mainSection').isPowerBI]",
             "options": {
               "filter": {
                 "subscription": "onBasics",
@@ -79,7 +79,7 @@
           {
             "name": "text1",
             "type": "Microsoft.Common.InfoBox",
-            "visible": "[contains(basics('mainSection').isPowerBI,'Yes')]",
+            "visible": "[basics('mainSection').isPowerBI]",
             "options": {
               "icon": "None",
               "text": "Enter the new username and password for creating the database."
@@ -89,7 +89,7 @@
             "name": "administratorLogin",
             "type": "Microsoft.Compute.UserNameTextBox",
             "label": "SQL Server admin username",
-            "visible": "[contains(basics('mainSection').isPowerBI,'Yes')]",
+            "visible": "[basics('mainSection').isPowerBI]",
             "toolTip": "Make sure your login name meets the following requirements - It's a SQL Identifier, and not a typical system name (like admin, administrator, sa, root, dbmanager, loginmanager, etc.), or a built-in database user or role (like dbo, guest, public, etc.). Make sure your name doesn't contain whitespaces, unicode characters, or nonalphabetic characters, and that it doesn't begin with numbers or symbols.   ",
             "constraints": {
               "required": true,
@@ -106,7 +106,7 @@
               "confirmPassword": "Confirm password"
             },
             "toolTip": "Your password cannot contain all or part of the username. Part of a username is defined as three or more consecutive alphanumeric characters.",
-            "visible": "[contains(basics('mainSection').isPowerBI,'Yes')]",
+            "visible": "[basics('mainSection').isPowerBI]",
             "constraints": {
               "required": true,
 
@@ -134,3 +134,4 @@
     }
   }
 }
+
