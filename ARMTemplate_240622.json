@@ -1259,7 +1259,7 @@
       ]
     },
     {
-      "condition": "[equals(parameters('DeploySimulator'),'true')]",
+      "condition": "[parameters('DeploySimulator')]",
       "name": "[variables('SimulatorAppName')]",
       "type": "Microsoft.Web/sites",
       "location": "[resourceGroup().location]",
@@ -1274,7 +1274,7 @@
       },
       "resources": [
         {
-          "condition": "[equals(parameters('DeploySimulator'),'true')]",
+          "condition":  "[parameters('DeploySimulator')]",
           "name": "MSDeploy",
           "type": "extensions",
           "location": "[resourceGroup().location]",
