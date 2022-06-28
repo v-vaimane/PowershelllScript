@@ -3,7 +3,7 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "DeploySimulator": {
-      "type": "string"
+      "type": "bool"
     },
     "isTimeSeriesInsight": {
       "type": "string"
@@ -45,7 +45,7 @@
   },
   "variables": {
     "discoveryServerSuffix1":"[split(parameters('CrmURL'),'.')]" ,
-    "discoveryServerSuffix2": "[replace(replace(string(variables('discoveryServerSuffix1')), '[', ''), ']', '')]",
+    //"discoveryServerSuffix2": "[replace(replace(string(variables('discoveryServerSuffix1')), '[', ''), ']', '')]",
     "discoveryServerSuffix3":"[skip(variables('discoveryServerSuffix1'),2)]",
     "discoveryServerSuffix4":"[take(variables('discoveryServerSuffix3'),1)]",
     "discoveryServerSuffix": "[replace(replace(string(variables('discoveryServerSuffix4')), '[', ''), ']', '')]",
@@ -1259,7 +1259,7 @@
       ]
     },
     {
-      "condition": "[equals(parameters('DeploySimulator'),'Yes')]",
+      "condition": "[equals(parameters('DeploySimulator'),'true')]",
       "name": "[variables('SimulatorAppName')]",
       "type": "Microsoft.Web/sites",
       "location": "[resourceGroup().location]",
@@ -1274,7 +1274,7 @@
       },
       "resources": [
         {
-          "condition": "[equals(parameters('DeploySimulator'),'Yes')]",
+          "condition": "[equals(parameters('DeploySimulator'),'true')]",
           "name": "MSDeploy",
           "type": "extensions",
           "location": "[resourceGroup().location]",
