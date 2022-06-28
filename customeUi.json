@@ -5,104 +5,76 @@
   "parameters": {
     "basics": [
       {
-      "name": "mainSection",
-      "type": "Microsoft.Common.Section",
-      "label": "Deploying resources using ARM template",  
-      "elements": [
-        {
-          "name": "crmOrgId",
-          "type": "Microsoft.Common.TextBox",
-          "label": "CRM Organization Id",
-          "visible": true,
-          "constraints": {
-            "required": true
-          }
-        }, 
-		{
-          "name": "CrmURL",
-          "type": "Microsoft.Common.TextBox",
-          "label": "CRM Organization URL",
-          "visible": true,
-          "constraints": {
-            "required": true
-          }
-        },  
-        {
-          "name": "DeploySimulator",
-          "type": "Microsoft.Common.CheckBox",
-          "label": "Deploy Simulator",
-          "toolTip": "We will deploy new resources to your Azure subscription. To use existing IoT Hub, storage account, or Service Bus resources, select Use existing Azure resources."
-        },
+        "name": "mainSection",
+        "type": "Microsoft.Common.Section",
+        "label": "Deploying resources using ARM template",
+        "elements": [
+          {
+            "name": "crmOrgId",
+            "type": "Microsoft.Common.TextBox",
+            "label": "CRM Organization Id",
+            "visible": true,
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "CrmURL",
+            "type": "Microsoft.Common.TextBox",
+            "label": "CRM Organization URL",
+            "visible": true,
+            "constraints": {
+              "required": true
+            }
+          },
+          {
+            "name": "DeploySimulator",
+            "type": "Microsoft.Common.CheckBox",
+            "label": "Deploy Simulator",
+            "toolTip": "We will deploy new resources to your Azure subscription. To use existing IoT Hub, storage account, or Service Bus resources, select Use existing Azure resources."
+          },
           {
             "name": "isTimeSeriesInsight",
-            "type": "Microsoft.Common.DropDown",
+            "type": "Microsoft.Common.CheckBox",
             "label": "Deploy Azure Time Series Insights (optional)",
-            "defaultValue": "False",
-            "toolTip": "Time Series Insights can be included in your deployment for detailed device insights and analytics.",
+            "toolTip": "Time Series Insights can be included in your deployment for detailed device insights and analytics."
+          },
+          {
+            "name": "ApplicationID",
+            "type": "Microsoft.Common.TextBox",
+            "label": "Application (client) ID",
+            "visible": "[contains(basics('mainSection').isTimeSeriesInsight,'Yes')]",
             "constraints": {
-                "allowedValues": [
-                    {
-                        "label": "Yes",
-                        "value": "Yes"
-                    },
-                    {
-                        "label": "No",
-                        "value": "No"
-                    }
-                ]
-            },
-            "visible": true
-        },
+              "required": true
+            }
+          },
           {
-              "name": "ApplicationID",
-              "type": "Microsoft.Common.TextBox",
-              "label": "Application (client) ID",
-              "visible": "[contains(basics('mainSection').isTimeSeriesInsight,'Yes')]",
-              "constraints": {
-                "required": true
-              }
-            },
-            {
-              "name": "ClientSecretID",
-              "type": "Microsoft.Common.TextBox",
-              "label": "Client Secret",
-              "visible": "[contains(basics('mainSection').isTimeSeriesInsight,'Yes')]",
-              "constraints": {
-                "required": true
-              }
-            },
-        {
-              "name": "isPowerBI",
-              "type": "Microsoft.Common.DropDown",
-              "label": "Deploy SQL Server for Power BI (optional)",
-              "defaultValue": "False",
-              "toolTip": "Microsoft Power BI for device analytics can be included in your deployment. Choosing this will deploy two additional resources, Azure Streaming Analytics and SQL Server database.",
-              "constraints": {
-                  "allowedValues": [
-                      {
-                          "label": "Yes",
-                          "value": "Yes"
-                      },
-                      {
-                          "label": "No",
-                          "value": "No"
-                      }
-                  ]
-              },
-              "visible": true
-          },  
+            "name": "ClientSecretID",
+            "type": "Microsoft.Common.TextBox",
+            "label": "Client Secret",
+            "visible": "[contains(basics('mainSection').isTimeSeriesInsight,'Yes')]",
+            "constraints": {
+              "required": true
+            }
+          },
           {
-              "name": "existingSQLServer",
-              "type": "Microsoft.Solutions.ResourceSelector",
-              "label": "SQL Server",
-              "resourceType": "Microsoft.Sql/servers",
-              "visible": "[contains(basics('mainSection').isPowerBI,'Yes')]",
-              "options": {
-                "filter": {
-                  "subscription": "onBasics",
-                  "location": "onBasics"
-                }
+            "name": "isPowerBI",
+            "type": "Microsoft.Common.CheckBox",
+            "label": "Deploy SQL Server for Power BI (optional)",
+            "toolTip": "Microsoft Power BI for device analytics can be included in your deployment. Choosing this will deploy two additional resources, Azure Streaming Analytics and SQL Server database."
+          },
+          {
+            "name": "existingSQLServer",
+            "type": "Microsoft.Solutions.ResourceSelector",
+            "label": "SQL Server",
+            "resourceType": "Microsoft.Sql/servers",
+            "visible": "[contains(basics('mainSection').isPowerBI,'Yes')]",
+            "options": {
+              "filter": {
+                "subscription": "onBasics",
+                "location": "onBasics"
               }
+            }
           },
           {
             "name": "text1",
@@ -123,28 +95,28 @@
               "required": true,
               "regex": "^[a-z0-9A-Z]{1,30}$",
               "validationMessage": "Only alphanumeric characters are allowed, and the value must be 1-30 characters long."
-          },
-          "osPlatform": "Windows"
+            },
+            "osPlatform": "Windows"
           },
           {
             "name": "administratorLoginPassword",
             "type": "Microsoft.Common.PasswordBox",
             "label": {
-            "password": "Password",
-            "confirmPassword": "Confirm password"
+              "password": "Password",
+              "confirmPassword": "Confirm password"
             },
             "toolTip": "Your password cannot contain all or part of the username. Part of a username is defined as three or more consecutive alphanumeric characters.",
             "visible": "[contains(basics('mainSection').isPowerBI,'Yes')]",
             "constraints": {
               "required": true,
 
-			  "customValidationMessage":"Your password cannot contain all or part of the username. Part of a username is defined as three or more consecutive alphanumeric characters."
-              },
+              "customValidationMessage": "Your password cannot contain all or part of the username. Part of a username is defined as three or more consecutive alphanumeric characters."
+            },
             "options": {
-                "hideConfirmation": false
+              "hideConfirmation": false
             }
           }
-      ]
+        ]
       }
     ],
     "steps": [],
