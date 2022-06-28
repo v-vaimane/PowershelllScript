@@ -6,10 +6,10 @@
       "type": "bool"
     },
     "isTimeSeriesInsight": {
-      "type": "string"
+      "type": "bool"
     },
     "isPowerBI": {
-      "type": "string"
+      "type": "bool"
     },
     "administratorLogin": {
       "type": "string",
@@ -868,7 +868,7 @@
     },
     /*timeSeriesInsightTempalte.json*/
     {
-      "condition": "[equals(parameters('isTimeSeriesInsight'),'Yes')]",
+      "condition": "[parameters('isTimeSeriesInsight')]",
       "apiVersion": "2020-05-15",
       "name": "[variables('timeSeriesInsightsName')]",
       "location": "[variables('timeSeriesInsightsLocation')]",
@@ -890,7 +890,7 @@
       ],
       "resources": [
         {
-          "condition": "[equals(parameters('isTimeSeriesInsight'),'Yes')]",
+          "condition": "[parameters('isTimeSeriesInsight')]",
           "type": "eventsources",
           "kind": "Microsoft.IoTHub",
           "name": "[variables('timeSeriesInsightsEventSourceName')]",
@@ -913,7 +913,7 @@
     },
     /*SQLDbTemplate.json*/
     {
-      "condition": "[equals(parameters('isPowerBI'),'Yes')]",
+      "condition": "[parameters('isPowerBI')]",
       "name": "[variables('sqlserverName')]",
       "type": "Microsoft.Sql/servers",
       "location": "[variables('sqlServerLocation')]",
@@ -928,7 +928,7 @@
       },
       "resources": [
         {
-          "condition": "[equals(parameters('isPowerBI'),'Yes')]",
+          "condition": "[parameters('isPowerBI')]",
           "name": "[variables('databaseName')]",
           "type": "databases",
           "location": "[variables('sqlServerLocation')]",
@@ -947,7 +947,7 @@
           }
         },
         {
-          "condition": "[equals(parameters('isPowerBI'),'Yes')]",
+          "condition": "[parameters('isPowerBI')]",
           "type": "firewallrules",
           "apiVersion": "2014-04-01",
           "dependsOn": [
@@ -964,7 +964,7 @@
     },
     /*streamAnalyticsPBITemplate.json*/
     {
-      "condition": "[equals(parameters('isPowerBI'),'Yes')]",
+      "condition": "[parameters('isPowerBI')]",
       "apiVersion": "[variables('sjVersion')]",
       "type": "Microsoft.StreamAnalytics/StreamingJobs",
       "name": "[variables('rulesJobNamePBI')]",
@@ -1323,22 +1323,22 @@
       "value": "[listkeys(variables('authRuleResourceId'), variables('sbVersion')).primaryKey]"
     },
     "sqlServerName": {
-      "condition": "[equals(parameters('isPowerBI'),'Yes')]",
+      "condition": "[parameters('isPowerBI')]",
       "type": "string",
       "value": "[reference(concat('Microsoft.Sql/servers/', variables('sqlserverName'))).fullyQualifiedDomainName]"
     },
     "databaseName": {
-      "condition": "[equals(parameters('isPowerBI'),'Yes')]",
+      "condition": "[parameters('isPowerBI')]",
       "type": "string",
       "value": "[variables('databaseName')]"
     },
     "connectionString": {
-      "condition": "[equals(parameters('isPowerBI'),'Yes')]",
+      "condition": "[parameters('isPowerBI')]",
       "type": "string",
       "value": "[concat('Server=tcp:', reference(concat('Microsoft.Sql/servers/', variables('sqlServerName'))).fullyQualifiedDomainName, ',1433;Initial Catalog=', variables('databaseName'), ';User Id=', parameters('administratorLogin'), '@', variables('sqlServerName'), ';Password=', parameters('administratorLoginPassword'), ';')]"
     },
     "dataAccessFqdn": {
-      "condition": "[equals(parameters('isTimeSeriesInsight'),'Yes')]",
+      "condition": "[parameters('isTimeSeriesInsight')]",
       "value": "[reference(resourceId('Microsoft.TimeSeriesInsights/environments', variables('timeSeriesInsightsName')), '2020-05-15').dataAccessFqdn]",
       "type": "string"
     }
