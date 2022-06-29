@@ -8,7 +8,7 @@ param([string]$SubscriptionId)
 param([string]$ResourceGroupName)
 param([string]$JobName)
 
-
+Connect-AzAccount -SubscriptionId $SubscriptionId
 Get-AzStreamAnalyticsJob -SubscriptionId $SubscriptionId -ResourceGroupName $ResourceGroupName -Name $JobName | Start-AzStreamAnalyticsJob
 
 
