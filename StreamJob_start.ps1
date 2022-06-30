@@ -1,7 +1,7 @@
 
 param([string]$SubscriptionId ,[string]$ResourceGroupName,[string]$JobName)
 
-Connect-AzAccount 
+Connect-AzAccount -UseDeviceAuthentication
 Get-AzStreamAnalyticsJob -SubscriptionId $SubscriptionId -ResourceGroupName $ResourceGroupName -Name $JobName | Start-AzStreamAnalyticsJob
 
 
