@@ -38,16 +38,14 @@
       "type": "string"
     },
     "CrmURL": {
-      "type": "string",
-      "defaultValue": "https://testorg06231.api.crm10.dynamics.com/api/data/v9.2/"
+      "type": "string"
     }
   
   },
   "variables": {
     "discoveryServerSuffix1":"[split(parameters('CrmURL'),'.')]" ,
-    //"discoveryServerSuffix2": "[replace(replace(string(variables('discoveryServerSuffix1')), '[', ''), ']', '')]",
-    "discoveryServerSuffix3":"[skip(variables('discoveryServerSuffix1'),2)]",
-    "discoveryServerSuffix4":"[take(variables('discoveryServerSuffix3'),1)]",
+    //"discoveryServerSuffix3":"[skip(variables('discoveryServerSuffix1'),2)]",
+    "discoveryServerSuffix4":"[take(variables('discoveryServerSuffix1'),3)]",
     "discoveryServerSuffix": "[replace(replace(string(variables('discoveryServerSuffix4')), '[', ''), ']', '')]",
     "subscriptionId": "[subscription().subscriptionId]",
     "singleQuote": "'",
@@ -76,6 +74,7 @@
     "streamJobApiVersion": "2015-09-01",
     "sjVersion": "[variables('streamJobApiVersion')]",
     "rulesJobName": "[format('{0}{1}', variables('resourceGroupName'), variables('uniqueIdentifier'))]",
+    "rulesOutputName":"AlertsQueue",
     "iotHubKeyName": "iothubowner",
     "rulesConsumerGroupName": "rulescg",
     "commondataserviceName": "commondataservice",
@@ -109,7 +108,8 @@
     "QueueMessageParserAppName": "[substring(format('QueueMessageParser-{0}-{1}', 'ServiceApp', variables('uniqueIdentifier')), 0, 43)]",
     "SimulatorAppName": "[substring(format('Simulator-{0}-{1}', 'ServiceApp', variables('uniqueIdentifier')), 0, 23)]",
     "defaultSASKeyName": "RootManageSharedAccessKey",
-    "authRuleResourceId": "[resourceId('Microsoft.ServiceBus/namespaces/authorizationRules', variables('serviceBusNamespaceName'), variables('defaultSASKeyName'))]"
+    "authRuleResourceId": "[resourceId('Microsoft.ServiceBus/namespaces/authorizationRules', variables('serviceBusNamespaceName'), variables('defaultSASKeyName'))]",
+    "rulesOutputNamespace": "[variables('serviceBusNamespaceName')]"
   },
   "resources": [
     /*serviceBusTemplate.json*/
@@ -245,6 +245,7 @@
       "name": "[variables('rulesJobName')]",
       "location": "[variables('location')]",
       "properties": {
+        /* The only supported value for ASA sku is standard https://msdn.microsoft.com/en-us/library/azure/dn834994.aspx */
         "sku": { "name": "Standard" },
         "inputs": [
           {
@@ -302,7 +303,30 @@
             "query": "[variables('alertRulesQuery')]"
           }
         },
-        "dependsOn": [
+        "outputs": [
+          {
+            "name": "AlertsQueue",
+            "properties": {
+              "serialization": {
+                "type": "JSON",
+                "properties": {
+                  "encoding": "UTF8",
+                  "format": "Array"
+                }
+              },
+              "datasource": {
+                "type": "Microsoft.ServiceBus/Queue",
+                "properties": {
+                  "queueName": "[variables('rulesOutputName')]",
+                  "serviceBusNamespace": "[variables('rulesOutputNamespace')]",
+                  "sharedAccessPolicyName": "[variables('defaultSASKeyName')]",
+                  "sharedAccessPolicyKey": "[listkeys(variables('authRuleResourceId'), variables('sbVersion')).primaryKey]"
+                }
+              }
+            }
+          }
+        ],
+        "dependsOn":[
           "[resourceId('Microsoft.Devices/IotHubs', variables('hubName'))]",
           "[resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName'))]"
         ]
