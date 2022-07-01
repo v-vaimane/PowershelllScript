@@ -1,7 +1,11 @@
 
-param([string]$SubscriptionId ,[string]$ResourceGroupName,[string]$JobName,[string]$TenantId)
+param([string]$SubscriptionId ,[string]$ResourceGroupName,[string]$JobName)
 
-$ResourceGroupName = 'RG_300622_02'
+
+$context = Set-AzContext -Subscription $SubscriptionId
+$User = $context.Account.Id
+$TenantId = $context.Tenant
+
 $JobName ='RG_300622_02bskmkujmlarv2-PBI'
 
 $User = 'william@PSA365.onmicrosoft.com'
