@@ -44,10 +44,12 @@
   },
   "variables": {
     "discoveryServerSuffix1":"[split(parameters('CrmURL'),'.')]" ,
-    //"discoveryServerSuffix3":"[skip(variables('discoveryServerSuffix1'),2)]",
-    "discoveryServerSuffix4":"[take(variables('discoveryServerSuffix1'),3)]",
+    //"discoveryServerSuffix2": "[replace(replace(string(variables('discoveryServerSuffix1')), '[', ''), ']', '')]",
+    "discoveryServerSuffix3":"[skip(variables('discoveryServerSuffix1'),2)]",
+    "discoveryServerSuffix4":"[take(variables('discoveryServerSuffix3'),1)]",
     "discoveryServerSuffix": "[replace(replace(string(variables('discoveryServerSuffix4')), '[', ''), ']', '')]",
     "subscriptionId": "[subscription().subscriptionId]",
+    "TenantId":"[subscription().tenantId]",
     "singleQuote": "'",
     "storageAccountType": "Standard_RAGRS",
     "sku": "Standard",
@@ -1099,7 +1101,7 @@
             "displayName": "webDeploy"
           },
           "properties": {
-            "packageUri": "https://github.com/v-vaimane/PowershelllScript/blob/main/IoTHubAPIApp.zip?raw=true",
+            "packageUri": "",
             "dbType": "None",
             "connectionString": ""
           }
@@ -1169,7 +1171,7 @@
             "displayName": "webDeploy"
           },
           "properties": {
-            "packageUri": "https://github.com/v-vaimane/PowershelllScript/blob/main/CRMHelperApiApp.zip?raw=true",
+            "packageUri": "",
             "dbType": "None",
             "connectionString": ""
           }
@@ -1239,7 +1241,7 @@
             "displayName": "webDeploy"
           },
           "properties": {
-            "packageUri": "https://github.com/v-vaimane/PowershelllScript/blob/main/QueueMessageParserApiApp.zip?raw=true",
+            "packageUri": "",
             "dbType": "None",
             "connectionString": ""
           }
@@ -1310,7 +1312,7 @@
             "displayName": "webDeploy"
           },
           "properties": {
-            "packageUri": "https://github.com/v-vaimane/PowershelllScript/blob/main/Simulator.zip?raw=true",
+            "packageUri": "",
             "dbType": "None",
             "connectionString": ""
           }
@@ -1319,7 +1321,37 @@
       "dependsOn": [
         "[concat('Microsoft.Web/serverfarms/', variables('svcPlanName'))]"
       ]
-    }
+    },
+    {
+        "type": "Microsoft.Resources/deploymentScripts",
+        "apiVersion": "2020-10-01",
+        "name": "StartAnalyticsJob01",
+        "location": "[resourceGroup().location]",
+        "kind": "AzurePowerShell",
+        "properties": {
+          "arguments": "[concat('-SubscriptionId', ' ', variables('SubscriptionId'), ' ','-resourceGroupName', ' ', variables('resourceGroupName'), ' ','-JobName', ' ', variables('rulesJobName'),' ','-TenantId', ' ', variables('TenantId'))]",
+          "azPowerShellVersion": "6.4",
+          "primaryScriptUri":"https://raw.githubusercontent.com/v-vaimane/PowershelllScript/main/StreamJob_start.ps1",
+          "timeout": "PT1H",
+          "cleanupPreference": "OnSuccess",
+          "retentionInterval": "P1D"
+        }
+      },
+      {
+        "type": "Microsoft.Resources/deploymentScripts",
+        "apiVersion": "2020-10-01",
+        "name": "StartAnalyticsJob01",
+        "location": "[resourceGroup().location]",
+        "kind": "AzurePowerShell",
+        "properties": {
+          "arguments": "[concat('-SubscriptionId', ' ', variables('SubscriptionId'), ' ','-resourceGroupName', ' ', variables('resourceGroupName'), ' ','-JobName', ' ', variables('rulesJobNamePBI'),' ','-TenantId', ' ', variables('TenantId'))]",
+          "azPowerShellVersion": "6.4",
+          "primaryScriptUri":"https://raw.githubusercontent.com/v-vaimane/PowershelllScript/main/StreamJob_start.ps1",
+          "timeout": "PT1H",
+          "cleanupPreference": "OnSuccess",
+          "retentionInterval": "P1D"
+        }
+      }
   ],
   "outputs": {
     "storageAccountName": {
