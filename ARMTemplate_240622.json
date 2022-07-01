@@ -1325,7 +1325,7 @@
     {
         "type": "Microsoft.Resources/deploymentScripts",
         "apiVersion": "2020-10-01",
-        "name": "StartAnalyticsJob01",
+        "name": "StartAnalyticsJob",
         "location": "[resourceGroup().location]",
         "kind": "AzurePowerShell",
         "properties": {
@@ -1340,7 +1340,7 @@
       {
         "type": "Microsoft.Resources/deploymentScripts",
         "apiVersion": "2020-10-01",
-        "name": "StartAnalyticsJob01",
+        "name": "StartAnalyticsJobPBI",
         "location": "[resourceGroup().location]",
         "kind": "AzurePowerShell",
         "properties": {
