@@ -1335,7 +1335,10 @@
           "timeout": "PT1H",
           "cleanupPreference": "OnSuccess",
           "retentionInterval": "P1D"
-        }
+        },
+         "dependsOn": [
+        "[concat('Microsoft.StreamAnalytics/StreamingJobs/', variables('rulesJobName'))]"
+      ]
       },
       {
         "type": "Microsoft.Resources/deploymentScripts",
@@ -1350,7 +1353,10 @@
           "timeout": "PT1H",
           "cleanupPreference": "OnSuccess",
           "retentionInterval": "P1D"
-        }
+        },
+         "dependsOn": [
+        "[concat('Microsoft.StreamAnalytics/StreamingJobs/', variables('rulesJobNamePBI'))]"
+      ]
       }
   ],
   "outputs": {
