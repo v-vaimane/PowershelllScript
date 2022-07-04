@@ -12,7 +12,7 @@
           {
             "name": "crmOrgId",
             "type": "Microsoft.Common.TextBox",
-            "label": "CRM Organization Id",
+            "label": "CRM Organization Unique Name",
             "visible": true,
             "constraints": {
               "required": true
@@ -30,8 +30,8 @@
           {
             "name": "DeploySimulator",
             "type": "Microsoft.Common.CheckBox",
-            "label": "Deploy Simulator",
-            "toolTip": "We will deploy new resources to your Azure subscription. To use existing IoT Hub, storage account, or Service Bus resources, select Use existing Azure resources."
+            "label": "Deploy Simulator (optional)",
+            "toolTip": "Simulator can be included in your deployment."
           },
           {
             "name": "isTimeSeriesInsight",
@@ -61,7 +61,7 @@
             "name": "isPowerBI",
             "type": "Microsoft.Common.CheckBox",
             "label": "Deploy SQL Server for Power BI (optional)",
-            "toolTip": "Microsoft Power BI for device analytics can be included in your deployment. Choosing this will deploy two additional resources, Azure Streaming Analytics and SQL Server database."
+            "toolTip": "Microsoft Power BI for device analytics can be included in your deployment. Choosing this will deploy two additional resources, Azure Stream Analytics and SQL Server database."
           },
           {
             "name": "existingSQLServer",
@@ -109,7 +109,6 @@
             "visible": "[basics('mainSection').isPowerBI]",
             "constraints": {
               "required": true,
-
               "customValidationMessage": "Your password cannot contain all or part of the username. Part of a username is defined as three or more consecutive alphanumeric characters."
             },
             "options": {
@@ -134,4 +133,3 @@
     }
   }
 }
-
