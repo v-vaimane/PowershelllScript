@@ -49,7 +49,6 @@
     "discoveryServerSuffix4":"[take(variables('discoveryServerSuffix3'),1)]",
     "discoveryServerSuffix": "[replace(replace(string(variables('discoveryServerSuffix4')), '[', ''), ']', '')]",
     "subscriptionId": "[subscription().subscriptionId]",
-    "TenantId":"[subscription().tenantId]",
     "singleQuote": "'",
     "storageAccountType": "Standard_RAGRS",
     "sku": "Standard",
@@ -1321,43 +1320,7 @@
       "dependsOn": [
         "[concat('Microsoft.Web/serverfarms/', variables('svcPlanName'))]"
       ]
-    },
-    {
-        "type": "Microsoft.Resources/deploymentScripts",
-        "apiVersion": "2020-10-01",
-        "name": "StartAnalyticsJob",
-        "location": "[resourceGroup().location]",
-        "kind": "AzurePowerShell",
-        "properties": {
-          "arguments": "[concat('-SubscriptionId', ' ', variables('SubscriptionId'), ' ','-resourceGroupName', ' ', variables('resourceGroupName'), ' ','-JobName', ' ', variables('rulesJobName'),' ','-TenantId', ' ', variables('TenantId'))]",
-          "azPowerShellVersion": "6.4",
-          "primaryScriptUri":"https://raw.githubusercontent.com/v-vaimane/PowershelllScript/main/StreamJob_start.ps1",
-          "timeout": "PT1H",
-          "cleanupPreference": "OnSuccess",
-          "retentionInterval": "P1D"
-        },
-         "dependsOn": [
-        "[concat('Microsoft.StreamAnalytics/StreamingJobs/', variables('rulesJobName'))]"
-      ]
-      },
-      {
-        "type": "Microsoft.Resources/deploymentScripts",
-        "apiVersion": "2020-10-01",
-        "name": "StartAnalyticsJobPBI",
-        "location": "[resourceGroup().location]",
-        "kind": "AzurePowerShell",
-        "properties": {
-          "arguments": "[concat('-SubscriptionId', ' ', variables('SubscriptionId'), ' ','-resourceGroupName', ' ', variables('resourceGroupName'), ' ','-JobName', ' ', variables('rulesJobNamePBI'),' ','-TenantId', ' ', variables('TenantId'))]",
-          "azPowerShellVersion": "6.4",
-          "primaryScriptUri":"https://raw.githubusercontent.com/v-vaimane/PowershelllScript/main/StreamJob_start.ps1",
-          "timeout": "PT1H",
-          "cleanupPreference": "OnSuccess",
-          "retentionInterval": "P1D"
-        },
-         "dependsOn": [
-        "[concat('Microsoft.StreamAnalytics/StreamingJobs/', variables('rulesJobNamePBI'))]"
-      ]
-      }
+    }
   ],
   "outputs": {
     "storageAccountName": {
