@@ -917,7 +917,7 @@
       },
       "dependsOn": [
         "[resourceId('Microsoft.Devices/IotHubs', variables('hubName'))]",
-        //"[concat('Microsoft.Devices/IotHubs/eventhubEndpoints/ConsumerGroups', variables('iotHubConsumerGroupName'))]",
+        //"[concat('Microsoft.Devices/iotHubs/eventhubEndpoints/ConsumerGroups', variables('iotHubConsumerGroupName'))]",
         "[resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName'))]"
       ],
       "resources": [
@@ -939,13 +939,13 @@
           "dependsOn": [
             "[resourceId('Microsoft.Devices/IotHubs', variables('hubName'))]",
             "[resourceId('Microsoft.TimeSeriesInsights/environments', variables('timeSeriesInsightsName'))]"
-            //"[resourceId('Microsoft.Devices/IotHubs/eventhubEndpoints/ConsumerGroups', variables('iotHubConsumerGroupName'))]"
+            //"[concat('Microsoft.Devices/IotHubs/eventHubEndpoints/ConsumerGroups', variables('iotHubConsumerGroupName'))]"
           ]
         }
       ]
     },
     {
-      "condition": "[parameters('isTimeSeriesInsight')]",
+      //"condition": "[parameters('isTimeSeriesInsight')]",
       "apiVersion": "2017-01-19",
       "type": "Microsoft.Devices/IotHubs/eventhubEndpoints/ConsumerGroups",
       "name": "[concat(variables('hubName'), '/events/', variables('iotHubConsumerGroupName'))]",
