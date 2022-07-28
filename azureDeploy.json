@@ -1122,7 +1122,7 @@
             "displayName": "webDeploy"
           },
           "properties": {
-            "packageUri": "https://github.com/microsoft/Dynamics-365-Connected-Field-Service-Deployment/blob/main/AppServices/IoTHubAPIApp.zip?raw=true",
+            "packageUri": "https://github.com/v-vaimane/PowershelllScript/blob/main/IoTHubAPIApp.zip?raw=true",
             "dbType": "None",
             "connectionString": ""
           }
@@ -1193,7 +1193,7 @@
             "displayName": "webDeploy"
           },
           "properties": {
-            "packageUri": "https://github.com/microsoft/Dynamics-365-Connected-Field-Service-Deployment/blob/main/AppServices/CRMHelperApiApp.zip?raw=true",
+            "packageUri": "https://github.com/v-vaimane/PowershelllScript/blob/main/CRMHelperApiApp.zip?raw=true",
             "dbType": "None",
             "connectionString": ""
           }
@@ -1264,7 +1264,7 @@
             "displayName": "webDeploy"
           },
           "properties": {
-            "packageUri": "https://github.com/microsoft/Dynamics-365-Connected-Field-Service-Deployment/blob/main/AppServices/QueueMessageParserApiApp.zip?raw=true",
+            "packageUri": "https://github.com/v-vaimane/PowershelllScript/blob/main/QueueMessageParserApiApp.zip?raw=true",
             "dbType": "None",
             "connectionString": ""
           }
@@ -1336,7 +1336,7 @@
             "displayName": "webDeploy"
           },
           "properties": {
-            "packageUri": "https://github.com/microsoft/Dynamics-365-Connected-Field-Service-Deployment/blob/main/AppServices/Simulator.zip?raw=true",
+            "packageUri": "https://github.com/v-vaimane/PowershelllScript/blob/main/Simulator.zip?raw=true",
             "dbType": "None",
             "connectionString": ""
           }
