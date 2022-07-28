@@ -91,6 +91,8 @@
     "eventSourceTimestampPropertyName": "",
     "iotHubResourceId": "[concat(uniquestring(resourceGroup().name),variables('uniqueIdentifier'))]",
     "iotHubConsumerGroupName": "timeseriesinsightsconsumergroup",
+    "RGNamewithSpecCharacter":"[replace(variables('resourceGroupName'), '_', '')]",
+    "RGName":"[toLower(variables('RGNamewithSpecCharacter'))]",
     "sqlServerName": "[concat('serverrg', variables('resourceGroupName'), variables('uniqueIdentifier'))]",
     "sqlDatabaseName": "[concat('database', variables('resourceGroupName'), variables('uniqueIdentifier'))]",
     "databaseName": "[concat(variables('sqlDatabaseName'), variables('sqlServerName'))]",
@@ -103,7 +105,6 @@
     "telemetryConsumerGroupName": "telemetrycg",
     "sqlTableName": "crmiotevents",
     "telemetryRulesQuery": "WITH TelemetryData AS \r\n(\r\nSELECT\r\n     Stream.DeviceID,\r\n     'Temperature' AS ReadingType,\r\n     Stream.Temperature AS Reading,\r\n     Stream.EventToken AS EventToken,\r\n     Ref.Temperature AS Threshold,\r\n     Ref.TemperatureRuleOutput AS RuleOutput,\r\n     Stream.EventEnqueuedUtcTime AS [Time]\r\nFROM IoTStream Stream\r\nJOIN DeviceRulesBlob Ref ON Ref.DeviceType = 'Thermostat'\r\n),\r\nMaxInMinute AS\r\n(\r\nSELECT\r\n    TopOne() OVER (ORDER BY Reading DESC) AS telemetryEvent\r\nFROM\r\n    TelemetryData \r\nGROUP BY \r\n    TumblingWindow(minute, 1), DeviceId\r\n)\r\n\r\nSELECT telemetryEvent.DeviceId,\r\n    telemetryEvent.ReadingType,\r\n    telemetryEvent.Reading,\r\n    telemetryEvent.EventToken,\r\n    telemetryEvent.Threshold,\r\n    telemetryEvent.RuleOutput,\r\n    telemetryEvent.Time\r\nINTO PowerBISQL\r\nFROM MaxInMinute\r\n",
-    "RGName":"[replace(variables('resourceGroupName'), '_', '')]",
     "IotHubAppName": "[concat('IoTHub',variables('RGName'), variables('uniqueIdentifier'))]",
     "CRMHelperAppName": "[concat('CRMHelper',variables('RGName'), variables('uniqueIdentifier'))]",
     "QueueMessageParserAppName": "[concat('QueueMessageParser',variables('RGName'), variables('uniqueIdentifier'))]",
@@ -1121,7 +1122,7 @@
             "displayName": "webDeploy"
           },
           "properties": {
-            "packageUri": "https://github.com/v-vaimane/PowershelllScript/blob/main/IoTHubAPIApp.zip?raw=true",
+            "packageUri": "https://github.com/microsoft/Dynamics-365-Connected-Field-Service-Deployment/blob/main/AppServices/IoTHubAPIApp.zip?raw=true",
             "dbType": "None",
             "connectionString": ""
           }
@@ -1192,7 +1193,7 @@
             "displayName": "webDeploy"
           },
           "properties": {
-            "packageUri": "https://github.com/v-vaimane/PowershelllScript/blob/main/CRMHelperApiApp.zip?raw=true",
+            "packageUri": "https://github.com/microsoft/Dynamics-365-Connected-Field-Service-Deployment/blob/main/AppServices/CRMHelperApiApp.zip?raw=true",
             "dbType": "None",
             "connectionString": ""
           }
@@ -1263,7 +1264,7 @@
             "displayName": "webDeploy"
           },
           "properties": {
-            "packageUri": "https://github.com/v-vaimane/PowershelllScript/blob/main/QueueMessageParserApiApp.zip?raw=true",
+            "packageUri": "https://github.com/microsoft/Dynamics-365-Connected-Field-Service-Deployment/blob/main/AppServices/QueueMessageParserApiApp.zip?raw=true",
             "dbType": "None",
             "connectionString": ""
           }
@@ -1335,7 +1336,7 @@
             "displayName": "webDeploy"
           },
           "properties": {
-            "packageUri": "https://github.com/v-vaimane/PowershelllScript/blob/main/Simulator.zip?raw=true",
+            "packageUri": "https://github.com/microsoft/Dynamics-365-Connected-Field-Service-Deployment/blob/main/AppServices/Simulator.zip?raw=true",
             "dbType": "None",
             "connectionString": ""
           }
