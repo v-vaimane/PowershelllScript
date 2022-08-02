@@ -882,7 +882,46 @@
         }
       },
       /*Time Series Insights environment*/
-     {
+      {
+      "condition": "[parameters('isTimeSeriesInsight')]",
+      "apiVersion": "2020-05-15",
+      "name": "[variables('timeSeriesInsightsName')]",
+      "location": "[variables('timeSeriesInsightsLocation')]",
+      "type": "Microsoft.TimeSeriesInsights/environments",
+      "kind": "[variables('environmentKind')]",
+      "sku": {
+        "name": "[variables('environmentSkuName')]",
+        "capacity": "[variables('environmentSkuCapacity')]"
+      },
+      "properties": {
+        "storageConfiguration": {
+          "accountName": "[variables('storageAccountName')]",
+          "managementKey": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName')), variables('saApiVersion')).keys[0].value]"
+        },
+        "timeSeriesIdProperties": "[parameters('environmentTimeSeriesIdProperties')]"
+      },
+      "resources": [
+        {
+          "type": "eventsources",
+          "kind": "Microsoft.IoTHub",
+          "name": "[variables('timeSeriesInsightsEventSourceName')]",
+          "apiVersion": "2020-05-15",
+          "location": "[variables('timeSeriesInsightsLocation')]",
+          "properties": {
+            "eventSourceResourceId": "[concat(resourceId('Microsoft.Devices/IotHubs', variables('iotHubResourceId')), '/Iothubkeys/iothubowner')]",
+            "iotHubName": "[variables('hubName')]",
+            "keyName": "[variables('ioTkeyName')]",
+            "consumerGroupName": "[variables('iotHubConsumerGroupName')]",
+            "sharedAccessKey": "[listKeys(resourceId('Microsoft.Devices/IotHubs/Iothubkeys', variables('hubName'), 'iothubowner'), '2017-01-19').primaryKey]",
+            "timestampPropertyName": "[variables('eventSourceTimestampPropertyName')]"
+          },
+          "dependsOn": [
+            "[resourceId('Microsoft.TimeSeriesInsights/environments', variables('timeSeriesInsightsName'))]"
+          ]
+        }
+      ]
+    },
+    {
       "condition": "[not(empty(parameters('PrincipleObjectID')))]",
       "apiVersion": "2020-05-15",
       "name": "[concat(variables('timeSeriesInsightsName'), '/', parameters('ApplicationID'))]",
@@ -892,8 +931,11 @@
         "roles": [
           "Reader"
         ]
-      }
-     },
+      },
+       "dependsOn": [
+            "[resourceId('Microsoft.TimeSeriesInsights/environments', variables('timeSeriesInsightsName'))]"
+          ]
+    },
       /*Iot Hub Consumer Group*/
       {
         "apiVersion": "2017-01-19",
@@ -947,7 +989,7 @@
               ],
               "properties": {
                 "storageKeyType": "[variables('storageKeyType')]",
-                "storageKey": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName')), variables('saApiVersion')).keys[0].value]",
+                //"storageKey": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName')), variables('saApiVersion')).keys[0].value]",
                 "storageUri": "https://github.com/v-vaimane/PowershelllScript/blob/main/PowerBiSqlDb.bacpac?raw=true",
                 "administratorLogin": "[parameters('administratorLogin')]",
                 "administratorLoginPassword": "[parameters('administratorLoginPassword')]",
