@@ -140,8 +140,8 @@
         }
       },
       "dependsOn": [
-        "[concat('Microsoft.ServiceBus/namespaces/', variables('serviceBusNamespaceName'))]"
-      ]
+           "[concat('Microsoft.ServiceBus/namespaces/', variables('serviceBusNamespaceName'))]"
+         ]
     },
     /*App Service Plan*/
     {
@@ -944,8 +944,8 @@
       "type": "Microsoft.Devices/IotHubs/eventhubEndpoints/ConsumerGroups",
       "name": "[concat(variables('hubName'), '/events/', variables('iotHubConsumerGroupName'))]",
       "dependsOn": [
-        "[resourceId('Microsoft.Devices/IotHubs', variables('hubName'))]"
-      ]
+           "[resourceId('Microsoft.Devices/IotHubs', variables('hubName'))]"
+         ]
     },
     /*SQL server*/
     {
@@ -1083,10 +1083,10 @@
           }
         },
         "dependsOn": [
-          "[resourceId('Microsoft.Devices/IotHubs', variables('hubName'))]",
-          "[concat('Microsoft.Sql/servers', variables('sqlserverName'))]",
-          "[resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName'))]"
-        ],
+        "[resourceId('Microsoft.Devices/IotHubs', variables('hubName'))]",
+        "[concat('Microsoft.Sql/servers', variables('sqlserverName'))]",
+        "[resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName'))]"
+      ],
         "outputs": [
           {
             "name": "PowerBISQL",
