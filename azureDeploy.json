@@ -980,25 +980,25 @@
             "collation": "[variables('collation')]",
             "maxSizeBytes": "[variables('maxSizeBytes')]",
             "requestedServiceObjectiveName": "[variables('requestedServiceObjectiveName')]"
-          },
-          "resources": [
-            {
-              "name": "Import",
-              "type": "extensions",
-              "apiVersion": "2014-04-01",
-              "dependsOn": [
-                "[variables('databaseName')]"
-              ],
-              "properties": {
-                "storageKeyType": "[variables('storageKeyType')]",
-                //"storageKey": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName')), variables('saApiVersion')).keys[0].value]",
-                "storageUri": "https://github.com/v-vaimane/PowershelllScript/blob/main/PowerBiSqlDb.bacpac?raw=true",
-                "administratorLogin": "[parameters('administratorLogin')]",
-                "administratorLoginPassword": "[parameters('administratorLoginPassword')]",
-                "operationMode": "Import"
-              }
-            }
-          ]
+          }
+        //   "resources": [
+        //     {
+        //       "name": "Import",
+        //       "type": "extensions",
+        //       "apiVersion": "2014-04-01",
+        //       "dependsOn": [
+        //         "[variables('databaseName')]"
+        //       ],
+        //       "properties": {
+        //         "storageKeyType": "[variables('storageKeyType')]",
+        //         //"storageKey": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName')), variables('saApiVersion')).keys[0].value]",
+        //         "storageUri": "https://github.com/v-vaimane/PowershelllScript/blob/main/PowerBiSqlDb.bacpac?raw=true",
+        //         "administratorLogin": "[parameters('administratorLogin')]",
+        //         "administratorLoginPassword": "[parameters('administratorLoginPassword')]",
+        //         "operationMode": "Import"
+        //       }
+        //     }
+        //   ]
         },
         {
           "condition": "[parameters('isPowerBI')]",
