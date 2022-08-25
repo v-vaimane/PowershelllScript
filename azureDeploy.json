@@ -930,7 +930,7 @@
       "condition":  "[parameters('isTimeSeriesInsight')]",
       "apiVersion": "2020-05-15",
       //"name":"[substring(format('{0}accesspolicies', variables('timeSeriesInsightsName')), 23)]",
-      "name": "accesspolicies'",
+      "name": "variables('timeSeriesInsightsName')'",  
       "type": "Microsoft.TimeSeriesInsights/environments/accesspolicies",
       "properties": {
         "principalObjectId": "[parameters('ObjectID')]",
