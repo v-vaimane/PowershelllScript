@@ -927,11 +927,10 @@
       ]
     },
     {
-      "condition":  "[parameters('isTimeSeriesInsight')]",
+      "condition": "[not(empty(parameters('ObjectID')))]",
       "apiVersion": "2020-05-15",
-      //"name":"[substring(format('{0}accesspolicies', variables('timeSeriesInsightsName')), 23)]",
-      "name": "[variables('timeSeriesInsightsName')]",  
-      "type": "Microsoft.TimeSeriesInsights/environments/accessPolicies",
+      "name": "[concat(variables('timeSeriesInsightsName'), '/', parameters('ApplicationID'))]",
+      "type": "Microsoft.TimeSeriesInsights/environments/accesspolicies",
       "properties": {
         "principalObjectId": "[parameters('ObjectID')]",
         "roles": [
