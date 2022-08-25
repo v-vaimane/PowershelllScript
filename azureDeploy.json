@@ -25,10 +25,6 @@
         "description": "Password for SQL server"
       }
     },
-    "accesspolicies":{
-      "type": "string",
-      "defaultValue":"[if(not(empty(parameters('isTimeSeriesInsight'))), 'Microsoft.TimeSeriesInsights/environments/accesspolicies', 'Microsoft.TimeSeriesInsights/accesspolicies')]"
-    },
     "environmentTimeSeriesIdProperties": {
       "type": "array",
       "defaultValue": [
