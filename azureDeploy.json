@@ -928,7 +928,7 @@
           "condition": "[not(empty(parameters('ObjectID')))]",
           "apiVersion": "2020-05-15",
           "name": "[concat(variables('timeSeriesInsightsName'), '/', parameters('ApplicationID'))]",
-          "type": "accessPolicies",
+          "type": "environments/accessPolicies",
           //"type":"[if(not(empty(parameters('isTimeSeriesInsight'))), 'Microsoft.TimeSeriesInsights/environments/accesspolicies', 'Microsoft.TimeSeriesInsights/accesspolicies')]",
           "properties": {
             "principalObjectId": "[parameters('ObjectID')]",
