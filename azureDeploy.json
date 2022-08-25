@@ -89,7 +89,7 @@
     "alertRulesQuery": "WITH AlertData AS \r\n(\r\nSELECT\r\n     Stream.DeviceID,\r\n     'Temperature' AS ReadingType,\r\n     Stream.Temperature AS Reading,\r\n     Stream.EventToken AS EventToken,\r\n     Ref.Temperature AS Threshold,\r\n     Ref.TemperatureRuleOutput AS RuleOutput,\r\n     Stream.EventEnqueuedUtcTime AS [Time]\r\nFROM IoTStream Stream\r\nJOIN DeviceRulesBlob Ref ON Ref.DeviceType = 'Thermostat'\r\nWHERE\r\n     Ref.Temperature IS NOT null AND Stream.Temperature > Ref.Temperature\r\n)\r\n\r\nSELECT data.DeviceId,\r\n    data.ReadingType,\r\n    data.Reading,\r\n    data.EventToken,\r\n    data.Threshold,\r\n    data.RuleOutput,\r\n    data.Time\r\nINTO AlertsQueue\r\nFROM AlertData data\r\nWHERE LAG(data.DeviceID) OVER (PARTITION BY data.DeviceId, data.Reading, data.ReadingType LIMIT DURATION(minute, 1)) IS NULL",
     "workflows_IoT_To_CRM_name": "IoT-To-CRM",
     "workflows_CRM_To_IoT_V2_name": "CRM-To-IoT-V2",
-    "timeSeriesInsightsName": "[format('{0}-{1}-timeSeriesInsights', variables('resourceGroupName'), variables('uniqueIdentifier'))]",
+    "timeSeriesInsightsName": "[format('{0}-{1}-TSI', variables('resourceGroupName'), variables('uniqueIdentifier'))]",
     "timeSeriesInsightsEventSourceName": "[format('{0}-{1}-TSIEventSourceName', variables('resourceGroupName'), variables('uniqueIdentifier'))]",
     "ioTkeyName": "iothubowner",
     "timeSeriesInsightsLocation": "[resourceGroup().location]",
@@ -929,7 +929,7 @@
     {
       "condition": "[parameters('isTimeSeriesInsight')]",
       "apiVersion": "2020-05-15",
-      "name": "[concat(variables('timeSeriesInsightsName'), '/', parameters('ApplicationID'))]",
+      "name": "[format('{0}-TSI', parameters('ApplicationID'))]",
       "type": "Microsoft.TimeSeriesInsights/environments/accesspolicies",
       "properties": {
         "principalObjectId": "[parameters('ObjectID')]",
