@@ -923,24 +923,24 @@
             "[resourceId('Microsoft.Devices/IotHubs', variables('hubName'))]",
             "[resourceId('Microsoft.TimeSeriesInsights/environments', variables('timeSeriesInsightsName'))]"
           ]
-        }
-      ]
-    },
-    {
-       "condition": "[not(empty(parameters('ObjectID')))]",
-          "apiVersion": "2020-05-15",
-          "name": "[concat(variables('timeSeriesInsightsName'), '/', parameters('ApplicationID'))]",
-          "type": "environments/accessPolicies",
-          //"type":"[if(not(empty(parameters('isTimeSeriesInsight'))), 'Microsoft.TimeSeriesInsights/environments/accesspolicies', 'Microsoft.TimeSeriesInsights/accesspolicies')]",
-          "properties": {
-            "principalObjectId": "[parameters('ObjectID')]",
-            "roles": [
-              "Reader"
+        },
+        {
+        "condition": "[not(empty(parameters('ObjectID')))]",
+        "apiVersion": "2020-05-15",
+        "name": "[concat(variables('timeSeriesInsightsName'), '/', parameters('ApplicationID'))]",
+        "type": "environments/accessPolicies",
+        //"type":"[if(not(empty(parameters('isTimeSeriesInsight'))), 'Microsoft.TimeSeriesInsights/environments/accesspolicies', 'Microsoft.TimeSeriesInsights/accesspolicies')]",
+        "properties": {
+        "principalObjectId": "[parameters('ObjectID')]",
+        "roles": [
+            "Reader"
             ]
           },
-          "dependsOn": [
-            "[concat('Microsoft.TimeSeriesInsights/environments/', variables('timeSeriesInsightsName'))]"
-          ]   
+        "dependsOn": [
+           "[concat('Microsoft.TimeSeriesInsights/environments/', variables('timeSeriesInsightsName'))]"
+          ]      
+        }
+      ]
     },
     /*Iot Hub Consumer Group*/
     {
