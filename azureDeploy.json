@@ -927,20 +927,19 @@
       ]
     },
     {
-        "condition": "[parameters('isTimeSeriesInsight')]",
-        "apiVersion": "2020-05-15",
-        "name": "[concat(variables('timeSeriesInsightsName'), parameters('ApplicationID'))]",
-        "type": "Microsoft.TimeSeriesInsights/environments/accessPolicies",
-        //"type":"[if(not(empty(parameters('isTimeSeriesInsight'))), 'Microsoft.TimeSeriesInsights/environments/accesspolicies', 'Microsoft.TimeSeriesInsights/accesspolicies')]",
-        "properties": {
+      "condition": "[not(empty(parameters('ObjectID')))]",
+      "apiVersion": "2020-05-15",
+      "name": "[concat(variables('timeSeriesInsightsName'), '/', parameters('ApplicationID'))]",
+      "type": "Microsoft.TimeSeriesInsights/environments/accesspolicies",
+      "properties": {
         "principalObjectId": "[parameters('ObjectID')]",
         "roles": [
-            "Reader"
-            ]
-          },
-        "dependsOn": [
-           "[concat('Microsoft.TimeSeriesInsights/environments/', variables('timeSeriesInsightsName'))]"
-          ]      
+          "Reader"
+        ]
+      },
+      "dependsOn": [
+        "[concat('Microsoft.TimeSeriesInsights/environments', variables('timeSeriesInsightsName'))]"
+      ]             
     },
     /*Iot Hub Consumer Group*/
     {
