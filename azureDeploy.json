@@ -938,8 +938,8 @@
         ]
       },
       "dependsOn": [
-        "[concat('Microsoft.TimeSeriesInsights/environments', variables('timeSeriesInsightsName'))]"
-      ]             
+        "[resourceId('Microsoft.TimeSeriesInsights/environments', variables('timeSeriesInsightsName'))]"
+      ]
     },
     /*Iot Hub Consumer Group*/
     {
